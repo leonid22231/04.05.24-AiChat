@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/storage_controller.dart';
 
-class LanguageController extends GetxController{
+class LanguageController extends GetxController {
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     initializeController();
     loadSelectedLanguage();
   }
+
   RxString languageName = "English".obs;
-  RxBool arb= false.obs;
+  RxBool arb = false.obs;
   RxString language = "English".obs;
   Future<void> initializeController() async {
     var lng = await StorageController.instance.getLang() ?? "";
 
     languageName.value = lng.isNotEmpty ? lng : 'English';
   }
+
   Future<void> changeLanguage({String? language}) async {
     Locale locale;
     switch (language) {
@@ -63,6 +65,13 @@ class LanguageController extends GetxController{
         await StorageController.instance.setCountryCode('DE');
         languageName.value = 'German';
         break;
+      case 'Russian':
+        locale = const Locale('ru', 'RU');
+        await StorageController.instance.setLang('Russiab');
+        await StorageController.instance.setLanguage('ru');
+        await StorageController.instance.setCountryCode('RU');
+        languageName.value = 'German';
+        break;
       case '':
         locale = const Locale('en', 'US');
         await StorageController.instance.setLang('English');
@@ -79,10 +88,9 @@ class LanguageController extends GetxController{
 
     Get.updateLocale(locale);
   }
+
   void loadSelectedLanguage() async {
     language.value = await StorageController.instance.getLanguage() ?? "";
-    language.value == "Arabic" || language.value == 'ar'
-        ? arb.value = true
-        : arb.value = false;
+    language.value == "Arabic" || language.value == 'ar' ? arb.value = true : arb.value = false;
   }
 }

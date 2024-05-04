@@ -45,11 +45,7 @@ class ProfileController extends GetxController {
 
   DateTime? selectedDate;
 
-  final List<String> genderOptions = [
-    StringConfig.male,
-    StringConfig.female,
-    StringConfig.other
-  ];
+  final List<String> genderOptions = [StringConfig.male, StringConfig.female, StringConfig.other];
 
   List<String> profileOptions = [
     StringConfig.personalInfo,
@@ -58,12 +54,5 @@ class ProfileController extends GetxController {
     StringConfig.logout,
   ];
 
-  List<String> languagesList = [
-    StringConfig.english,
-    StringConfig.arabic,
-    StringConfig.chinese,
-    StringConfig.german,
-    StringConfig.france,
-    StringConfig.hindi,
-  ];
+  List<String> languagesList = [StringConfig.english, StringConfig.arabic, StringConfig.chinese, StringConfig.german, StringConfig.france, StringConfig.hindi, StringConfig.russian];
 }

@@ -35,27 +35,25 @@ class _LanguageViewState extends State<LanguageView> {
         title: StringConfig.languages.tr,
         leading: Center(
           child: Padding(
-            padding: const EdgeInsets.only(left: SizeConfig.padding05),
-            child: Obx(() => RotationTransition(
-              turns: AlwaysStoppedAnimation(languageController.arb.value?0.5:1),
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Image.asset(
-                  ImageConfig.backArrow,
-                  width: SizeConfig.width24,
+              padding: const EdgeInsets.only(left: SizeConfig.padding05),
+              child: Obx(
+                () => RotationTransition(
+                  turns: AlwaysStoppedAnimation(languageController.arb.value ? 0.5 : 1),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Image.asset(
+                      ImageConfig.backArrow,
+                      width: SizeConfig.width24,
+                    ),
+                  ),
                 ),
-              ),
-            ),)
-          ),
+              )),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-            left: SizeConfig.padding20,
-            top: SizeConfig.padding10,
-            right: SizeConfig.padding20),
+        padding: const EdgeInsets.only(left: SizeConfig.padding20, top: SizeConfig.padding10, right: SizeConfig.padding20),
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: profileController.languagesList.length,
@@ -65,41 +63,39 @@ class _LanguageViewState extends State<LanguageView> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: SizeConfig.padding24),
                   child: GestureDetector(
-                    onTap: () {
-                      // setState(() {
-                      //   profileController.selectedIndex = index;
-                      // });
-                      languageController.changeLanguage(
-                          language: profileController.languagesList[index]);
-                      languageController.languageName.value =
-                          profileController.languagesList[index];
-                    },
-                    child: Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          profileController.languagesList[index],
-                          style: const TextStyle(
-                            fontFamily: FontFamilyConfig.outfitRegular,
-                            fontWeight: FontWeight.w400,
-                            fontSize: FontSizeConfig.heading4Text,
-                          ),
+                      onTap: () {
+                        // setState(() {
+                        //   profileController.selectedIndex = index;
+                        // });
+                        debugPrint("Lang click index $index lng ${profileController.languagesList[index]}");
+                        languageController.changeLanguage(language: profileController.languagesList[index]);
+                        languageController.languageName.value = profileController.languagesList[index];
+                      },
+                      child: Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              profileController.languagesList[index],
+                              style: const TextStyle(
+                                fontFamily: FontFamilyConfig.outfitRegular,
+                                fontWeight: FontWeight.w400,
+                                fontSize: FontSizeConfig.heading4Text,
+                              ),
+                            ),
+                            if (languageController.languageName.value == profileController.languagesList[index])
+                              Image.asset(
+                                ImageConfig.radioButtonFill,
+                                width: SizeConfig.width16,
+                              ),
+                            if (languageController.languageName.value != profileController.languagesList[index])
+                              Image.asset(
+                                ImageConfig.radioButton,
+                                width: SizeConfig.width16,
+                              ),
+                          ],
                         ),
-                        if (languageController.languageName.value ==
-                            profileController.languagesList[index])
-                          Image.asset(
-                            ImageConfig.radioButtonFill,
-                            width: SizeConfig.width16,
-                          ),
-                        if (languageController.languageName.value !=
-                            profileController.languagesList[index])
-                          Image.asset(
-                            ImageConfig.radioButton,
-                            width: SizeConfig.width16,
-                          ),
-                      ],
-                    ),)
-                  ),
+                      )),
                 ),
               ],
             );

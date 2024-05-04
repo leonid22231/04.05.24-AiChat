@@ -25,4 +25,5 @@ List<Map<String, String>> commonLanguagesWithFlags = [
   {"language": "Greek", "code": "GR"},
   {"language": "Hebrew", "code": "IL"},
   {"language": "Romanian", "code": "RO"},
+  {"language": "Russian","code":"RU"}
 ];
