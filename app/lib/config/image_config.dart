@@ -148,7 +148,7 @@ class ImageConfig {
   static const String pauseImage = "assets/images/pauseImage.png";
   static const String fullScreenIcon = "assets/images/fullScreenIcon.png";
 
-  static const String profilePickImage = "assets/images/profilePickImage.png";
+  static const String profilePickImage = "assets/images/noPhotoProfile.png";
   static const String arrowLeft = "assets/images/arrowLeft.png";
   static const String radioButton = "assets/images/radioButton.png";
   static const String radioButtonFill = "assets/images/radioButtonFill.png";

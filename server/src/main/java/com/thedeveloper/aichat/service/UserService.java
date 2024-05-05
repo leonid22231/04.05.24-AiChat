@@ -12,6 +12,9 @@ public class UserService {
     public UserEntity findByEmail(String email) {
         return userRepository.findUserEntityByEmail(email);
     }
+    public void delete(UserEntity userEntity){
+        userRepository.delete(userEntity);
+    }
     public void save(UserEntity user){
         userRepository.save(user);
     }

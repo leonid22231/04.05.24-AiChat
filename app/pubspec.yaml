@@ -2,7 +2,7 @@ name: prime_ai_flutter_ui_kit
 description: Prime AI Flutter UI Kit
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Flutter version 3.16.5
-# Dart version 3.2.3
+# Dart version 3.2.3  
 version: 1.0.1
 
 environment:
@@ -31,12 +31,17 @@ dependencies:
   emoji_picker_flutter: ^1.6.1
   cupertino_will_pop_scope: ^1.2.1
   fluttertoast: ^8.2.2
-  shared_preferences: ^2.2.2
-
+  shared_preferences: ^2.2.3
+  retrofit: ^4.1.0
+  json_annotation: ^4.8.1
+  dio: ^5.4.3+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  retrofit_generator: '>=7.0.0 <8.0.0'
+  build_runner: '>=2.3.0 <4.0.0'
+  json_serializable: ^6.6.2
 
 flutter:
   uses-material-design: true

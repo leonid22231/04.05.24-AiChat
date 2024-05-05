@@ -10,6 +10,7 @@ import 'package:prime_ai_flutter_ui_kit/config/string_config.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/on_boarding_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/model/on_boarding_model.dart';
 import 'package:prime_ai_flutter_ui_kit/routes/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingView extends StatelessWidget {
   OnBoardingView({Key? key}) : super(key: key);
@@ -62,8 +63,7 @@ class OnBoardingView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image(
-                            image:
-                                AssetImage(onBoardingModelList[index].image ?? ""),
+                            image: AssetImage(onBoardingModelList[index].image ?? ""),
                             width: SizeConfig.width310,
                             height: SizeConfig.height323,
                           ),
@@ -184,7 +184,9 @@ class OnBoardingView extends StatelessWidget {
                   height: SizeConfig.height52,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setBool("welcome", false);
                       Get.offAllNamed(AppRoutes.signInView);
                     },
                     style: ElevatedButton.styleFrom(
@@ -216,16 +218,10 @@ class OnBoardingView extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(right: SizeConfig.margin02point),
-      height: onBoardingController.pageViewIndex.value == index
-          ? SizeConfig.height06
-          : SizeConfig.height06,
-      width: onBoardingController.pageViewIndex.value == index
-          ? SizeConfig.width20
-          : SizeConfig.width06,
+      height: onBoardingController.pageViewIndex.value == index ? SizeConfig.height06 : SizeConfig.height06,
+      width: onBoardingController.pageViewIndex.value == index ? SizeConfig.width20 : SizeConfig.width06,
       decoration: BoxDecoration(
-        color: onBoardingController.pageViewIndex.value == index
-            ? ColorConfig.primaryColor
-            : ColorConfig.textLightColor,
+        color: onBoardingController.pageViewIndex.value == index ? ColorConfig.primaryColor : ColorConfig.textLightColor,
         borderRadius: BorderRadius.circular(SizeConfig.borderRadius20),
       ),
     );

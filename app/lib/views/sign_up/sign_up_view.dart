@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/sign_up_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/routes/app_routes.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/color_config.dart';
 import '../../config/font_family_config.dart';
@@ -18,7 +20,6 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-
   SignUpController signUpController = Get.put(SignUpController());
 
   void _togglePasswordVisibility() {
@@ -304,8 +305,13 @@ class _SignUpViewState extends State<SignUpView> {
                     });
                     if (signUpController.formSignUpKey.currentState!.validate() && !signUpController.showError && !signUpController.showError2) {
                       if (signUpController.emailController.text.isNotEmpty) {
-                        if(signUpController.passwordController.text.isNotEmpty) {
-                          Get.toNamed(AppRoutes.otpView);
+                        if (signUpController.passwordController.text.isNotEmpty) {
+                          Globals.client.register(signUpController.emailController.text, signUpController.passwordController.text).then((value) async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("email", signUpController.emailController.text);
+                            prefs.setBool("remember", true);
+                            Get.toNamed(AppRoutes.otpView, parameters: {"code": value, "email": signUpController.emailController.text});
+                          });
                         }
                       } else {
                         signUpController.showError = true;

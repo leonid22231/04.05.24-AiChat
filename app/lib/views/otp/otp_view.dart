@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/otp_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/routes/app_routes.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
 import '../../config/color_config.dart';
 import '../../config/font_family_config.dart';
 import '../../config/font_size_config.dart';
@@ -52,9 +53,9 @@ class OTPView extends StatelessWidget {
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration?.copyWith(
           // color: ColorConfig.backgroundColor,
-      ),
+          ),
     );
-
+    debugPrint("Arg ${Get.parameters}");
     return Scaffold(
       backgroundColor: ColorConfig.backgroundWhiteColor,
       appBar: AppBar(
@@ -120,24 +121,20 @@ class OTPView extends StatelessWidget {
                     focusNode: otpController.pinFocusNode,
                     showCursor: true,
                     errorPinTheme: errorPinTheme,
-                    errorTextStyle: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: FontSizeConfig.body1Text,
-                      fontFamily: FontFamilyConfig.outfitRegular,
-                      color: Colors.red
-                    ),
-                    // validator: (pin) {
-                    //   if (pin == null || pin.isEmpty) {
-                    //     return StringConfig.codeRequired;
-                    //   } else if (pin == '2222') {
-                    //     return null;
-                    //   } else {
-                    //     return StringConfig.thisCodeIsIncorrect;
-                    //   }
-                    // },
-                    onCompleted: (pin) {
-
+                    errorTextStyle: const TextStyle(fontWeight: FontWeight.w400, fontSize: FontSizeConfig.body1Text, fontFamily: FontFamilyConfig.outfitRegular, color: Colors.red),
+                    validator: (pin) {
+                      if (pin == null || pin.isEmpty) {
+                        otpController.pin = false;
+                        return StringConfig.codeRequired;
+                      } else if (pin == Get.parameters["code"]) {
+                        otpController.pin = true;
+                        return null;
+                      } else {
+                        otpController.pin = false;
+                        return StringConfig.thisCodeIsIncorrect;
+                      }
                     },
+                    onCompleted: (pin) {},
                   ),
                 ),
                 const SizedBox(
@@ -183,7 +180,9 @@ class OTPView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.toNamed(AppRoutes.completeYourProfileView);
+                      if (otpController.pin) {
+                        Globals.client.activateAccount(Get.parameters["email"]!).then((value) => Get.toNamed(AppRoutes.completeYourProfileView, parameters: {"email": Get.parameters["email"]!}));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,

@@ -8,5 +8,5 @@ class OTPController extends GetxController {
 
   final FocusNode pinFocusNode = FocusNode();
 
-  String pin = '';
+  bool pin = false;
 }

@@ -9,6 +9,7 @@ import 'package:prime_ai_flutter_ui_kit/controller/bottom_navigation_controller.
 import 'package:prime_ai_flutter_ui_kit/controller/language_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/profile_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/routes/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/color_config.dart';
 import '../../config/font_family_config.dart';
 import '../../config/font_size_config.dart';
@@ -73,9 +74,28 @@ class _ProfileViewState extends State<ProfileView> {
                   onTap: () {
                     _pickImageFromGallery();
                   },
-                  child: Image.asset(
-                    ImageConfig.profilePickImage,
-                    width: SizeConfig.width122,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          ImageConfig.profilePickImage,
+                          width: SizeConfig.width122,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.amber,
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -234,7 +254,10 @@ class _ProfileViewState extends State<ProfileView> {
                       child: SizedBox(
                         height: SizeConfig.height52,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.remove("email");
+                            prefs.remove("remember");
                             Get.offAllNamed(AppRoutes.signInView);
                           },
                           style: ElevatedButton.styleFrom(

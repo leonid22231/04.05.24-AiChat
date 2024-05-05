@@ -8,6 +8,8 @@ import 'package:prime_ai_flutter_ui_kit/config/size_config.dart';
 import 'package:prime_ai_flutter_ui_kit/config/string_config.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/sign_in_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/routes/app_routes.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/font_family_config.dart';
 import '../../config/font_size_config.dart';
@@ -324,8 +326,13 @@ class _SignInViewState extends State<SignInView> {
                     });
                     if (signInController.formKey.currentState!.validate() && !signInController.showError && !signInController.showError2) {
                       if (signInController.emailController.text.isNotEmpty) {
-                        if(signInController.passwordController.text.isNotEmpty) {
-                          Get.toNamed(AppRoutes.bottomBarView);
+                        if (signInController.passwordController.text.isNotEmpty) {
+                          Globals.client.login(signInController.emailController.text, signInController.passwordController.text).then((value) async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("email", signInController.emailController.text);
+                            prefs.setBool("remember", signInController.rememberMe ?? false);
+                            Get.toNamed(AppRoutes.bottomBarView);
+                          });
                         }
                       } else {
                         signInController.showError = true;

@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/UserGender.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/profile_controller.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import '../../../config/color_config.dart';
 import '../../../config/font_family_config.dart';
@@ -20,7 +24,6 @@ class PersonalInfoView extends StatefulWidget {
 }
 
 class _PersonalInfoViewState extends State<PersonalInfoView> {
-
   ProfileController profileController = Get.put(ProfileController());
 
   void _showCountryPicker() async {
@@ -77,15 +80,24 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
-    profileController.fullNameController.text = StringConfig.rahulRana;
-    profileController.emailController.text = StringConfig.exampleEmail;
-    profileController.phoneNumberController.text = StringConfig.mobileNumber;
-    profileController.genderController.text = StringConfig.male;
-    profileController.dateOfBirthController.text = StringConfig.dob;
+    initProfile();
+  }
+
+  void initProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Globals.client.infoUser(prefs.getString("email")!).then((value) {
+      profileController.selectedCountry = value.phone_code != null ? CountryCode.fromDialCode(value.phone_code!)!.flagUri : "";
+      profileController.fullNameController.text = value.name ?? "";
+      profileController.emailController.text = value.email;
+      profileController.phoneNumberController.text = value.phone_number ?? "";
+      profileController.genderController.text = value.gender == null ? "" : value.gender!.name;
+      profileController.dateOfBirthController.text = value.date_of_birth != null ? "${value.date_of_birth!.toLocal()}".split(' ')[0] : "";
+      setState(() {});
+    });
   }
 
   @override
@@ -124,9 +136,28 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               Center(
                 child: GestureDetector(
                   onTap: _pickImageFromGallery,
-                  child: Image.asset(
-                    ImageConfig.profilePickImage,
-                    width: SizeConfig.width122,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          ImageConfig.profilePickImage,
+                          width: SizeConfig.width122,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.amber,
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -289,10 +320,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textLightColor,
                           ),
-                          labelText: profileController.isFocusedTextField3 ||
-                              profileController.phoneNumberController.text.isNotEmpty
-                              ? StringConfig.phoneNumber
-                              : null,
+                          labelText: profileController.isFocusedTextField3 || profileController.phoneNumberController.text.isNotEmpty ? StringConfig.phoneNumber : null,
                           labelStyle: const TextStyle(
                             fontSize: FontSizeConfig.heading4Text,
                             fontWeight: FontWeight.w300,
@@ -563,9 +591,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
         padding: const EdgeInsets.symmetric(vertical: SizeConfig.padding10, horizontal: SizeConfig.padding05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(SizeConfig.borderRadius06),
-          border: isSelected
-              ? Border.all(color: ColorConfig.primaryColor)
-              : null,
+          border: isSelected ? Border.all(color: ColorConfig.primaryColor) : null,
           color: isSelected ? ColorConfig.backgroundLightColor : null,
         ),
         child: Text(
