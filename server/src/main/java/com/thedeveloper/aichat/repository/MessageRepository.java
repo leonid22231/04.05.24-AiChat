@@ -1,2 +1,9 @@
-package com.thedeveloper.aichat.repository;public interface MessageRepository {
+package com.thedeveloper.aichat.repository;
+
+import com.thedeveloper.aichat.entity.MessageEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MessageRepository extends JpaRepository<MessageEntity, String> {
 }

@@ -88,6 +88,11 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/id")
+    public ResponseEntity<?> findId(@RequestParam String email){
+        UserEntity user = userService.findByEmail(email);
+        return new ResponseEntity<>(user.getId(), HttpStatus.OK);
+    }
     @GetMapping("/info")
     public ResponseEntity<?> info(@RequestParam("email")String email){
         UserEntity user = userService.findByEmail(email);

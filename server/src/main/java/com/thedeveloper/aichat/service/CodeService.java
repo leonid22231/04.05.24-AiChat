@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CodeService {
-    CodeRepository codeRepository;
+    private CodeRepository codeRepository;
     public List<CodeEntity> findByUser(UserEntity user){
         return codeRepository.findCodeEntitiesByUser(user);
     }

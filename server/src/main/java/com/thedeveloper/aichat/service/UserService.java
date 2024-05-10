@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class UserService {
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    public UserEntity findById(String id){
+        return userRepository.findUserEntityById(id);
+    }
+
     public UserEntity findByEmail(String email) {
         return userRepository.findUserEntityByEmail(email);
     }
