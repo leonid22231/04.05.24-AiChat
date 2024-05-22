@@ -46,7 +46,7 @@ public class UserBot {
         };
         ObjectMapper mapper = defaultObjectMapper();
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("45.129.184.209", 8000));
-        OkHttpClient client = defaultClient("sk-proj-JDJnCewMSpVnItlU73zJT3BlbkFJHPiE7lMAvYIFdIgmyGwv", Duration.ofSeconds(60))
+        OkHttpClient client = defaultClient("secret", Duration.ofSeconds(60))
                 .newBuilder()
                 .proxy(proxy)
                 .proxyAuthenticator(proxyAuthenticator)
