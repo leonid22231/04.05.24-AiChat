@@ -38,7 +38,7 @@ public class UserBot {
         Authenticator proxyAuthenticator = new Authenticator() {
             @Override
             public Request authenticate(Route route, Response response) throws IOException {
-                String credential = Credentials.basic("mrTkLW", "8c3FrC");
+                String credential = Credentials.basic("secret", "secret");
                 return response.request().newBuilder()
                         .header("Proxy-Authorization", credential)
                         .build();
