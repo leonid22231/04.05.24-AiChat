@@ -20,13 +20,13 @@ class _RestClient implements RestClient {
 
   @override
   Future<void> login(
-    String email,
-    String password,
+    String uid,
+    String languageCode,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'email': email,
-      r'password': password,
+      r'uid': uid,
+      r'languageCode': languageCode,
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
@@ -49,51 +49,52 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<UserEntity> infoUser(String email) async {
+  Future<ChatEntity> findChat(
+    ChatTheme theme,
+    String uid,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'email': email};
+    final queryParameters = <String, dynamic>{r'uid': uid};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<UserEntity>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ChatEntity>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/info',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-    final value = UserEntity.fromJson(_result.data!);
+            .compose(
+              _dio.options,
+              '/chat/${theme.name}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ChatEntity.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<String> register(
-    String email,
-    String password,
+  Future<void> deleteChat(
+    ChatTheme theme,
+    String uid,
   ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'email': email,
-      r'password': password,
-    };
+    final queryParameters = <String, dynamic>{r'uid': uid};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-      method: 'POST',
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/register',
+          '/chat/${theme.name}/delete',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -102,14 +103,19 @@ class _RestClient implements RestClient {
           _dio.options.baseUrl,
           baseUrl,
         ))));
-    final value = _result.data!;
-    return value;
   }
 
   @override
-  Future<void> activateAccount(String email) async {
+  Future<void> changeModel(
+    ChatTheme theme,
+    String uid,
+    ChatModel model,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'email': email};
+    final queryParameters = <String, dynamic>{
+      r'uid': uid,
+      r'model': model.name,
+    };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     await _dio.fetch<void>(_setStreamType<void>(Options(
@@ -119,56 +125,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/activateUser',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-  }
-
-  @override
-  Future<void> sendInfo(
-    String email,
-    String name,
-    String phone_code,
-    String phone,
-    String gender,
-    DateTime dateOfBirth,
-    File? file,
-  ) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'email': email,
-      r'name': name,
-      r'phone_code': phone_code,
-      r'phone': phone,
-      r'gender': gender,
-      r'date_of_birth': dateOfBirth.toIso8601String(),
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final _data = FormData();
-    if (file != null) {
-      _data.files.add(MapEntry(
-        'file',
-        MultipartFile.fromFileSync(
-          file.path,
-          filename: file.path.split(Platform.pathSeparator).last,
-        ),
-      ));
-    }
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/sendInfo',
+          '/chat/${theme.name}/model',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -180,7 +137,9 @@ class _RestClient implements RestClient {
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
-    if (T != dynamic && !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {

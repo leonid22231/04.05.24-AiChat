@@ -25,7 +25,7 @@ class ChoosePlanView extends StatelessWidget {
       appBar: CommonAppBar(
         backgroundColor: ColorConfig.backgroundWhiteColor,
         centerTitle: true,
-        title: StringConfig.choosePlan,
+        title: StringConfig.choosePlan.tr,
         leading: Center(
           child: Padding(
             padding: const EdgeInsets.only(left: SizeConfig.padding05),
@@ -43,7 +43,10 @@ class ChoosePlanView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(
-          left: SizeConfig.padding20, right: SizeConfig.padding20, top: SizeConfig.padding10, bottom: SizeConfig.padding10,
+          left: SizeConfig.padding20,
+          right: SizeConfig.padding20,
+          top: SizeConfig.padding10,
+          bottom: SizeConfig.padding10,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -60,11 +63,14 @@ class ChoosePlanView extends StatelessWidget {
                   child: Container(
                     // height: SizeConfig.width241,
                     padding: const EdgeInsets.only(
-                      left: SizeConfig.padding14, right: SizeConfig.padding14,
-                      top: SizeConfig.padding16, bottom: SizeConfig.padding12,
+                      left: SizeConfig.padding14,
+                      right: SizeConfig.padding14,
+                      top: SizeConfig.padding16,
+                      bottom: SizeConfig.padding12,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius32),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius32),
                       color: ColorConfig.backgroundColor,
                     ),
                     child: Column(
@@ -76,22 +82,23 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height06,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              StringConfig.dollar20,
-                              style: TextStyle(
+                              StringConfig.dollar20.tr,
+                              style: const TextStyle(
                                 fontSize: FontSizeConfig.fontSize30,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: FontFamilyConfig.outfitSemiBold,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.padding10),
+                              padding: const EdgeInsets.only(
+                                  top: SizeConfig.padding10),
                               child: Text(
-                                StringConfig.month1,
-                                style: TextStyle(
+                                StringConfig.month1.tr,
+                                style: const TextStyle(
                                   fontSize: FontSizeConfig.body1Text,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamilyConfig.outfitRegular,
@@ -103,9 +110,10 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height05,
                         ),
-                        const Text(
-                          StringConfig.save10,
-                          style: TextStyle(
+                        Text(
+                          StringConfig.save10.tr,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                             fontSize: FontSizeConfig.body2Text,
                             fontWeight: FontWeight.w400,
                             fontFamily: FontFamilyConfig.outfitRegular,
@@ -117,10 +125,14 @@ class ChoosePlanView extends StatelessWidget {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: upgradeProController.planFeatureList.length,
+                          primary: false,
+                          itemCount:
+                              upgradeProController.planFeatureList.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: SizeConfig.padding24, bottom: SizeConfig.padding08),
+                              padding: const EdgeInsets.only(
+                                  left: SizeConfig.padding24,
+                                  bottom: SizeConfig.padding08),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -130,12 +142,17 @@ class ChoosePlanView extends StatelessWidget {
                                   const SizedBox(
                                     width: SizeConfig.width10,
                                   ),
-                                  Text(
-                                    upgradeProController.planFeatureList[index],
-                                    style: const TextStyle(
-                                      fontSize: FontSizeConfig.body1Text,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamilyConfig.outfitRegular,
+                                  Expanded(
+                                    child: Text(
+                                      upgradeProController
+                                          .planFeatureList[index].tr,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: FontSizeConfig.body1Text,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -158,13 +175,15 @@ class ChoosePlanView extends StatelessWidget {
                     );
                   },
                   child: Container(
-
                     padding: const EdgeInsets.only(
-                      left: SizeConfig.padding14, right: SizeConfig.padding14,
-                      top: SizeConfig.padding16, bottom: SizeConfig.padding12,
+                      left: SizeConfig.padding14,
+                      right: SizeConfig.padding14,
+                      top: SizeConfig.padding16,
+                      bottom: SizeConfig.padding12,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius32),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius32),
                       color: ColorConfig.backgroundColor,
                     ),
                     child: Column(
@@ -176,22 +195,23 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height06,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              StringConfig.dollar40,
-                              style: TextStyle(
+                              StringConfig.dollar40.tr,
+                              style: const TextStyle(
                                 fontSize: FontSizeConfig.fontSize30,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: FontFamilyConfig.outfitSemiBold,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.padding10),
+                              padding: const EdgeInsets.only(
+                                  top: SizeConfig.padding10),
                               child: Text(
-                                StringConfig.month6,
-                                style: TextStyle(
+                                StringConfig.month6.tr,
+                                style: const TextStyle(
                                   fontSize: FontSizeConfig.body1Text,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamilyConfig.outfitRegular,
@@ -203,9 +223,10 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height05,
                         ),
-                        const Text(
-                          StringConfig.save40,
-                          style: TextStyle(
+                        Text(
+                          StringConfig.save40.tr,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                             fontSize: FontSizeConfig.body2Text,
                             fontWeight: FontWeight.w400,
                             fontFamily: FontFamilyConfig.outfitRegular,
@@ -217,10 +238,14 @@ class ChoosePlanView extends StatelessWidget {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: upgradeProController.planFeatureList2.length,
+                          primary: false,
+                          itemCount:
+                              upgradeProController.planFeatureList2.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: SizeConfig.padding24, bottom: SizeConfig.padding08),
+                              padding: const EdgeInsets.only(
+                                  left: SizeConfig.padding24,
+                                  bottom: SizeConfig.padding08),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -230,12 +255,17 @@ class ChoosePlanView extends StatelessWidget {
                                   const SizedBox(
                                     width: SizeConfig.width10,
                                   ),
-                                  Text(
-                                    upgradeProController.planFeatureList2[index],
-                                    style: const TextStyle(
-                                      fontSize: FontSizeConfig.body1Text,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamilyConfig.outfitRegular,
+                                  Expanded(
+                                    child: Text(
+                                      upgradeProController
+                                          .planFeatureList2[index].tr,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: FontSizeConfig.body1Text,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -260,11 +290,14 @@ class ChoosePlanView extends StatelessWidget {
                   child: Container(
                     // height: SizeConfig.width241,
                     padding: const EdgeInsets.only(
-                      left: SizeConfig.padding14, right: SizeConfig.padding14,
-                      top: SizeConfig.padding16, bottom: SizeConfig.padding12,
+                      left: SizeConfig.padding14,
+                      right: SizeConfig.padding14,
+                      top: SizeConfig.padding16,
+                      bottom: SizeConfig.padding12,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius32),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius32),
                       color: ColorConfig.backgroundColor,
                     ),
                     child: Column(
@@ -276,22 +309,23 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height06,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              StringConfig.dollar70,
-                              style: TextStyle(
+                              StringConfig.dollar70.tr,
+                              style: const TextStyle(
                                 fontSize: FontSizeConfig.fontSize30,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: FontFamilyConfig.outfitSemiBold,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.padding10),
+                              padding: const EdgeInsets.only(
+                                  top: SizeConfig.padding10),
                               child: Text(
-                                StringConfig.month12,
-                                style: TextStyle(
+                                StringConfig.month12.tr,
+                                style: const TextStyle(
                                   fontSize: FontSizeConfig.body1Text,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamilyConfig.outfitRegular,
@@ -303,9 +337,10 @@ class ChoosePlanView extends StatelessWidget {
                         const SizedBox(
                           height: SizeConfig.height05,
                         ),
-                        const Text(
-                          StringConfig.save40,
-                          style: TextStyle(
+                        Text(
+                          StringConfig.save40.tr,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                             fontSize: FontSizeConfig.body2Text,
                             fontWeight: FontWeight.w400,
                             fontFamily: FontFamilyConfig.outfitRegular,
@@ -317,10 +352,13 @@ class ChoosePlanView extends StatelessWidget {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: upgradeProController.planFeatureList3.length,
+                          itemCount:
+                              upgradeProController.planFeatureList3.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: SizeConfig.padding24, bottom: SizeConfig.padding08),
+                              padding: const EdgeInsets.only(
+                                  left: SizeConfig.padding24,
+                                  bottom: SizeConfig.padding08),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -330,14 +368,18 @@ class ChoosePlanView extends StatelessWidget {
                                   const SizedBox(
                                     width: SizeConfig.width10,
                                   ),
-                                  Text(
-                                    upgradeProController.planFeatureList3[index],
+                                  Expanded(
+                                      child: Text(
+                                    upgradeProController
+                                        .planFeatureList3[index].tr,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: FontSizeConfig.body1Text,
                                       fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamilyConfig.outfitRegular,
+                                      fontFamily:
+                                          FontFamilyConfig.outfitRegular,
                                     ),
-                                  ),
+                                  )),
                                 ],
                               ),
                             );

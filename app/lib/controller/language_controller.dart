@@ -70,7 +70,7 @@ class LanguageController extends GetxController {
         await StorageController.instance.setLang('Russiab');
         await StorageController.instance.setLanguage('ru');
         await StorageController.instance.setCountryCode('RU');
-        languageName.value = 'German';
+        languageName.value = 'Russian';
         break;
       case '':
         locale = const Locale('en', 'US');
@@ -91,6 +91,8 @@ class LanguageController extends GetxController {
 
   void loadSelectedLanguage() async {
     language.value = await StorageController.instance.getLanguage() ?? "";
-    language.value == "Arabic" || language.value == 'ar' ? arb.value = true : arb.value = false;
+    language.value == "Arabic" || language.value == 'ar'
+        ? arb.value = true
+        : arb.value = false;
   }
 }

@@ -1,11 +1,23 @@
 // ignore_for_file: must_be_immutable, use_key_in_widget_constructors
 
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:prime_ai_flutter_ui_kit/api/RestClient.dart';
+import 'package:prime_ai_flutter_ui_kit/api/entities/MessageEntity.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/ChatModel.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/ChatTheme.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/MessageMode.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/MessageType.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/chat_controller.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import '../../config/color_config.dart';
 import '../../config/font_family_config.dart';
@@ -23,14 +35,23 @@ class StartChatView extends StatefulWidget {
 }
 
 class _StartChatViewState extends State<StartChatView> {
+  ChatTheme theme = ChatTheme.more_assistant;
+  List<MessageEntity> messages = [];
   ChatController chatController = Get.put(ChatController());
-
+  late Socket socket;
+  ChatModel? model;
   final _controller = SuperTooltipController();
-
+  bool connect = false;
+  late String title;
   @override
   void initState() {
     super.initState();
     chatController.focusNode.addListener(_handleFocusChange);
+    theme = ChatTheme.values
+        .firstWhere((element) => element.name == Get.parameters["theme"]);
+    title = Get.parameters["title"]!;
+
+    connectToServer();
   }
 
   void _handleFocusChange() {
@@ -47,8 +68,10 @@ class _StartChatViewState extends State<StartChatView> {
 
   @override
   void dispose() {
+    debugPrint("On dispose");
     chatController.focusNode.removeListener(_handleFocusChange);
     chatController.focusNode.dispose();
+    disconnectFromServer();
     super.dispose();
   }
 
@@ -56,9 +79,6 @@ class _StartChatViewState extends State<StartChatView> {
   Widget build(BuildContext context) {
     double containerWidth =
         chatController.isUpdated ? SizeConfig.width125 : SizeConfig.width144;
-    String buttonText = chatController.isUpdated
-        ? StringConfig.stopGenerating
-        : StringConfig.regenerateResponse;
     AssetImage image = chatController.isUpdated
         ? const AssetImage(ImageConfig.checkFeedback)
         : const AssetImage(ImageConfig.refreshResponse);
@@ -67,7 +87,7 @@ class _StartChatViewState extends State<StartChatView> {
       appBar: CommonAppBar(
         backgroundColor: ColorConfig.backgroundWhiteColor,
         centerTitle: true,
-        title: StringConfig.aiAssistant,
+        title: title,
         leading: Center(
           child: Padding(
             padding: const EdgeInsets.only(left: SizeConfig.padding05),
@@ -84,7 +104,8 @@ class _StartChatViewState extends State<StartChatView> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: SizeConfig.padding20,left: SizeConfig.padding20),
+            padding: const EdgeInsets.only(
+                right: SizeConfig.padding20, left: SizeConfig.padding20),
             child: GestureDetector(
               onTap: () async {
                 await _controller.showTooltip();
@@ -96,42 +117,84 @@ class _StartChatViewState extends State<StartChatView> {
                 hasShadow: true,
                 shadowSpreadRadius: .1,
                 borderRadius: SizeConfig.borderRadius08,
-                arrowBaseWidth: SizeConfig.width10,
+                arrowBaseWidth: SizeConfig.width16,
                 arrowLength: 9,
-                content: GestureDetector(
-                  onTap: () {
-                    _controller.hideTooltip();
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return customDeleteChatDialouge();
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _controller.hideTooltip();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return customDeleteChatDialouge();
+                          },
+                        );
                       },
-                    );
-                  },
-                  child: SizedBox(
-                    width: SizeConfig.width105,
-                    height: SizeConfig.height27,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          ImageConfig.deleteChat,
-                          width: SizeConfig.width16,
+                      child: SizedBox(
+                        width: SizeConfig.width105,
+                        height: SizeConfig.height27,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              ImageConfig.deleteChat,
+                              width: SizeConfig.width16,
+                            ),
+                            const SizedBox(
+                              width: SizeConfig.width10,
+                            ),
+                            const Text(
+                              StringConfig.deleteChat,
+                              style: TextStyle(
+                                fontFamily: FontFamilyConfig.outfitRegular,
+                                fontWeight: FontWeight.w400,
+                                fontSize: FontSizeConfig.body1Text,
+                                color: ColorConfig.textColor,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: SizeConfig.width10,
-                        ),
-                        const Text(
-                          StringConfig.deleteChat,
-                          style: TextStyle(
-                            fontFamily: FontFamilyConfig.outfitRegular,
-                            fontWeight: FontWeight.w400,
-                            fontSize: FontSizeConfig.body1Text,
-                            color: ColorConfig.textColor,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    GestureDetector(
+                      onTap: () {
+                        if (model != null) {
+                          _controller.hideTooltip();
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return customChangeModelDialog();
+                            },
+                          );
+                        }
+                      },
+                      child: SizedBox(
+                        width: SizeConfig.width120,
+                        height: SizeConfig.height27,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              ImageConfig.dropdownArrow,
+                              width: SizeConfig.width16,
+                            ),
+                            const SizedBox(
+                              width: SizeConfig.width10,
+                            ),
+                            const Text(
+                              StringConfig.changeModel,
+                              style: TextStyle(
+                                fontFamily: FontFamilyConfig.outfitRegular,
+                                fontWeight: FontWeight.w400,
+                                fontSize: FontSizeConfig.body1Text,
+                                color: ColorConfig.textColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 child: const Icon(
                   Icons.more_vert_rounded,
@@ -152,12 +215,9 @@ class _StartChatViewState extends State<StartChatView> {
           children: [
             Expanded(
               child: ListView(
-                physics: chatController.isSendButtonPressed
-                    ? chatController.listViewPhysics
-                    : const NeverScrollableScrollPhysics(),
-                children: chatController.isSendButtonPressed
-                    ? buildUpdatedChatContent()
-                    : buildInitialChatDescriptionContent(),
+                reverse: true,
+                physics: chatController.listViewPhysics,
+                children: buildChat(messages),
               ),
             ),
             Stack(
@@ -165,51 +225,6 @@ class _StartChatViewState extends State<StartChatView> {
               children: [
                 Column(
                   children: [
-                    Visibility(
-                      visible: chatController.isSendButtonPressed,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: SizeConfig.padding10,
-                            bottom: SizeConfig.padding10),
-                        child: GestureDetector(
-                          onTap: () {
-                            toggleTextAndImage();
-                          },
-                          child: Container(
-                            width: containerWidth,
-                            height: SizeConfig.height27,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  SizeConfig.borderRadius06),
-                              border: Border.all(
-                                color: ColorConfig.textFieldBorderColor,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: image,
-                                  width: SizeConfig.width12,
-                                ),
-                                const SizedBox(
-                                  width: SizeConfig.width04,
-                                ),
-                                Text(
-                                  buttonText,
-                                  style: const TextStyle(
-                                    fontFamily: FontFamilyConfig.outfitRegular,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: FontSizeConfig.body2Text,
-                                    color: ColorConfig.textColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     Row(
                       children: [
                         Expanded(
@@ -274,25 +289,33 @@ class _StartChatViewState extends State<StartChatView> {
                         ValueListenableBuilder<bool>(
                           valueListenable: chatController.isTextEntered,
                           builder: (context, textEntered, child) {
-                            return textEntered
-                                ? GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        chatController.isSendButtonPressed =
-                                            true;
-                                      });
-                                      chatController.askController.clear();
-                                    },
-                                    child: const Image(
-                                      image: AssetImage(ImageConfig.sendChat),
-                                      width: SizeConfig.width42,
-                                    ),
-                                  )
-                                : const Image(
-                                    image:
-                                        AssetImage(ImageConfig.voiceAssistant),
-                                    width: SizeConfig.width42,
-                                  );
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  chatController.isSendButtonPressed = true;
+                                });
+                                if (chatController
+                                    .askController.text.isNotEmpty) {
+                                  socket.emit("send_message", {
+                                    "content": chatController.askController.text
+                                  });
+                                  MessageEntity message = MessageEntity(
+                                      id: "0",
+                                      mode: MessageMode.User,
+                                      type: MessageType.Text,
+                                      content:
+                                          chatController.askController.text,
+                                      send_time: DateTime.now());
+                                  messages.add(message);
+                                }
+                                chatController.askController.clear();
+                                setState(() {});
+                              },
+                              child: const Image(
+                                image: AssetImage(ImageConfig.sendChat),
+                                width: SizeConfig.width42,
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -305,6 +328,71 @@ class _StartChatViewState extends State<StartChatView> {
         ),
       ),
     );
+  }
+
+  void disconnectFromServer() {
+    if (socket.active) {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('read_message');
+      socket.disconnect();
+      socket.dispose();
+      socket.close();
+    } else {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('read_message');
+      socket.dispose();
+      socket.close();
+    }
+  }
+
+  void connectToServer() async {
+    await loadMessages();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString("uid")!;
+    try {
+      OptionBuilder optionBuilder = OptionBuilder();
+      Map<String, dynamic> opt = optionBuilder
+          .enableAutoConnect()
+          .setTransports(["websocket"]).setQuery(
+              {"uid": uid, "theme": theme.name}).build();
+      opt.addAll({"forceNew": true});
+      socket = io('http://${Globals.ip}:8081', opt);
+      if (!connect) {
+        socket.connect();
+        connect = !connect;
+      }
+      socket.on('connect', (_) {
+        debugPrint("Connect to room $theme");
+      });
+      socket.on('disconnect', (_) {
+        debugPrint("Disconnect");
+      });
+      socket.on("read_message", (data) async {
+        debugPrint("Read Message $data");
+        messages.add(MessageEntity(
+            id: "1",
+            mode: MessageMode.Ai,
+            type: MessageType.Text,
+            send_time: DateTime.now(),
+            content: data["content"]));
+        setState(() {});
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> loadMessages() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString("uid")!;
+    debugPrint("Load message uid $uid");
+    Globals.client.findChat(theme, uid).then((value) {
+      model = value.model;
+      messages = value.messages;
+      setState(() {});
+    });
   }
 
   Material customDeleteChatDialouge() {
@@ -404,7 +492,13 @@ class _StartChatViewState extends State<StartChatView> {
                       child: SizedBox(
                         height: SizeConfig.height52,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            String uid = prefs.getString("uid")!;
+                            Globals.client
+                                .deleteChat(theme, uid)
+                                .then((value) => Get.back());
                             Get.back();
                           },
                           style: ElevatedButton.styleFrom(
@@ -426,6 +520,141 @@ class _StartChatViewState extends State<StartChatView> {
                           ),
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Material customChangeModelDialog() {
+    ChatModel chatModel = model!;
+    return Material(
+      type: MaterialType.transparency,
+      child: Padding(
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            right: SizeConfig.padding20,
+            bottom: SizeConfig.padding20,
+            top: SizeConfig.padding20),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            width: SizeConfig.width335,
+            height: SizeConfig.height306,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      ImageConfig.selectLanguage,
+                      width: SizeConfig.width29,
+                    ),
+                    const SizedBox(
+                      width: SizeConfig.width08,
+                    ),
+                    const Expanded(
+                      child: Text(
+                        StringConfig.changeModel,
+                        style: TextStyle(
+                          fontSize: FontSizeConfig.heading4Text,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: FontFamilyConfig.outfitMedium,
+                          color: ColorConfig.textColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  color: ColorConfig.dividerColor,
+                  height: SizeConfig.height30,
+                ),
+                const SizedBox(
+                  height: SizeConfig.height08,
+                ),
+                const Text(
+                  StringConfig.selectModelToChange,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontFamily: FontFamilyConfig.outfitRegular,
+                    fontSize: FontSizeConfig.heading4Text,
+                    color: ColorConfig.textColor,
+                  ),
+                ),
+                TextButton(
+                    onPressed: chatModel == ChatModel.gpt_3
+                        ? null
+                        : () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            String uid = prefs.getString("uid")!;
+                            model = ChatModel.gpt_3;
+                            Globals.client
+                                .changeModel(theme, uid, ChatModel.gpt_3)
+                                .then((value) => Get.back());
+                          },
+                    child: const Text(
+                      "GPT-3.5",
+                    )),
+                TextButton(
+                    onPressed: chatModel == ChatModel.gpt_4
+                        ? null
+                        : () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            String uid = prefs.getString("uid")!;
+                            model = ChatModel.gpt_4;
+                            Globals.client
+                                .changeModel(theme, uid, ChatModel.gpt_4)
+                                .then((value) => Get.back());
+                          },
+                    child: const Text("GPT-4-turbo")),
+                const SizedBox(
+                  height: SizeConfig.height30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: SizeConfig.height52,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: ColorConfig.backgroundLightColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius52),
+                            ),
+                          ),
+                          child: const Text(
+                            StringConfig.buttonCancel,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: FontFamilyConfig.outfitSemiBold,
+                              fontSize: FontSizeConfig.heading3Text,
+                              color: ColorConfig.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: SizeConfig.width16),
+                    const Expanded(
+                      child: SizedBox.shrink(),
                     ),
                   ],
                 ),
@@ -598,44 +827,14 @@ class _StartChatViewState extends State<StartChatView> {
     ];
   }
 
-  List<Widget> buildUpdatedChatContent() {
-    return [
-      const Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          MessageContainer(
+  List<Widget> buildChat(List<MessageEntity> messages) {
+    return messages.reversed
+        .map((e) => MessageContainer(
+            isRight: e.mode == MessageMode.User,
+            text: e.content,
             width: SizeConfig.width255,
-            height: SizeConfig.height46,
-            isRight: true,
-            text: StringConfig.helloThere,
-          ),
-          MessageContainer(
-            width: SizeConfig.width255,
-            height: SizeConfig.height68,
-            isRight: false,
-            text: StringConfig.howCanIHelpYou,
-          ),
-          MessageContainer(
-            width: SizeConfig.width255,
-            height: SizeConfig.height122,
-            isRight: false,
-            text: StringConfig.iAIPreviewMessage,
-          ),
-          MessageContainer(
-            width: SizeConfig.width255,
-            height: SizeConfig.height46,
-            isRight: true,
-            text: StringConfig.showMeWhatYouDo,
-          ),
-          MessageContainer(
-            width: SizeConfig.width255,
-            height: SizeConfig.height224,
-            isRight: false,
-            text: StringConfig.iAIPreviewMessage2String,
-          ),
-        ],
-      )
-    ];
+            height: SizeConfig.height122))
+        .toList();
   }
 }
 
@@ -660,9 +859,12 @@ class MessageContainer extends StatelessWidget {
       children: [
         Container(
           width: width,
-          height: height,
+          //height: height,
           padding: const EdgeInsets.only(
-              left: SizeConfig.padding20, right: SizeConfig.padding15),
+              top: SizeConfig.padding20,
+              bottom: SizeConfig.padding20,
+              left: SizeConfig.padding20,
+              right: SizeConfig.padding15),
           margin: const EdgeInsets.symmetric(vertical: SizeConfig.margin07),
           decoration: BoxDecoration(
             color: isRight
@@ -708,8 +910,7 @@ class MessageContainer extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Clipboard.setData(const ClipboardData(
-                              text: StringConfig.iAIPreviewMessage));
+                          Clipboard.setData(ClipboardData(text: text));
                           Fluttertoast.showToast(
                             msg: StringConfig.textCopied,
                             toastLength: Toast.LENGTH_LONG,
@@ -718,7 +919,7 @@ class MessageContainer extends StatelessWidget {
                         },
                         child: const Image(
                           image: AssetImage(ImageConfig.copyChat),
-                          width: SizeConfig.width12,
+                          width: SizeConfig.width23,
                         ),
                       ),
                       const SizedBox(
@@ -726,11 +927,11 @@ class MessageContainer extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Share.share(StringConfig.iAIPreviewMessage);
+                          Share.share(text);
                         },
                         child: const Image(
                           image: AssetImage(ImageConfig.shareChat),
-                          width: SizeConfig.width12,
+                          width: SizeConfig.width23,
                         ),
                       ),
                       const SizedBox(
@@ -747,7 +948,7 @@ class MessageContainer extends StatelessWidget {
                         },
                         child: const Image(
                           image: AssetImage(ImageConfig.likeChat),
-                          width: SizeConfig.width12,
+                          width: SizeConfig.width23,
                         ),
                       ),
                       const SizedBox(
@@ -764,7 +965,7 @@ class MessageContainer extends StatelessWidget {
                         },
                         child: const Image(
                           image: AssetImage(ImageConfig.dislikeChat),
-                          width: SizeConfig.width12,
+                          width: SizeConfig.width23,
                         ),
                       ),
                     ],
@@ -952,7 +1153,7 @@ class _CustomDislikeDialogState extends State<CustomDislikeDialog> {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             width: SizeConfig.width335,
-            height:SizeConfig. height380,
+            height: SizeConfig.height380,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,

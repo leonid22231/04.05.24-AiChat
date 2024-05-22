@@ -64,6 +64,8 @@ class WritingTabView extends StatelessWidget {
                       ),
                       Text(
                         moreController.writingSectionSubStrings[index],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontFamily: FontFamilyConfig.outfitRegular,

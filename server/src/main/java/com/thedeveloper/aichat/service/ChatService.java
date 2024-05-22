@@ -18,4 +18,7 @@ public class ChatService {
     public void save(ChatEntity chatEntity){
         chatRepository.save(chatEntity);
     }
+    public void delete(ChatEntity chatEntity){
+        chatRepository.delete(chatEntity);
+    }
 }

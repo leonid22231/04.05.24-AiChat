@@ -30,7 +30,7 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
       appBar: CommonAppBar(
         backgroundColor: ColorConfig.backgroundWhiteColor,
         centerTitle: true,
-        title: StringConfig.selectPayment,
+        title: StringConfig.selectPayment.tr,
         leading: Center(
           child: Padding(
             padding: const EdgeInsets.only(left: SizeConfig.padding05),
@@ -47,7 +47,11 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: SizeConfig.padding20, top: SizeConfig.padding10, right: SizeConfig.padding20, bottom: SizeConfig.padding10),
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            top: SizeConfig.padding10,
+            right: SizeConfig.padding20,
+            bottom: SizeConfig.padding10),
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: upgradeProController.paymentModeList.length,
@@ -56,9 +60,14 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
               padding: const EdgeInsets.only(bottom: SizeConfig.padding24),
               child: Container(
                 height: SizeConfig.height70,
-                padding: const EdgeInsets.only(left: SizeConfig.padding12, top: SizeConfig.padding12, bottom: SizeConfig.padding12, right: SizeConfig.padding16),
+                padding: const EdgeInsets.only(
+                    left: SizeConfig.padding12,
+                    top: SizeConfig.padding12,
+                    bottom: SizeConfig.padding12,
+                    right: SizeConfig.padding16),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(SizeConfig.borderRadius10),
+                  borderRadius:
+                      BorderRadius.circular(SizeConfig.borderRadius10),
                   color: ColorConfig.backgroundColor,
                 ),
                 child: GestureDetector(
@@ -84,7 +93,7 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
                             width: SizeConfig.width10,
                           ),
                           Text(
-                            upgradeProController.paymentModeList[index],
+                            upgradeProController.paymentModeList[index].tr,
                             style: const TextStyle(
                               fontSize: FontSizeConfig.heading4Text,
                               fontWeight: FontWeight.w500,
@@ -112,7 +121,11 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: SizeConfig.padding20, bottom: SizeConfig.padding15, top: SizeConfig.padding15, right: SizeConfig.padding20),
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            bottom: SizeConfig.padding15,
+            top: SizeConfig.padding15,
+            right: SizeConfig.padding20),
         child: SizedBox(
           height: SizeConfig.height52,
           width: double.infinity,
@@ -130,9 +143,9 @@ class _SelectPaymentViewState extends State<SelectPaymentView> {
                 borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
               ),
             ),
-            child: const Text(
-              StringConfig.buttonConfirmPayment,
-              style: TextStyle(
+            child: Text(
+              StringConfig.buttonConfirmPayment.tr,
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontFamily: FontFamilyConfig.outfitSemiBold,
                 fontSize: FontSizeConfig.heading3Text,

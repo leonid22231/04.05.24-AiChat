@@ -38,7 +38,7 @@ public class ServerModule {
     private DataListener<MessageModel> onChatReceived() {
         return (senderClient, data, ackSender) -> {
             log.info(data.toString());
-            if(!Objects.equals(senderClient.getHandshakeData().getUrlParams().get("id").stream().collect(Collectors.joining()), "0")){
+            if(!Objects.equals(senderClient.getHandshakeData().getUrlParams().get("uid").stream().collect(Collectors.joining()), "0")){
                 serverService.saveMessage(senderClient, data);
             }
         };
@@ -48,27 +48,28 @@ public class ServerModule {
         return  (client) -> {
             var params = client.getHandshakeData().getUrlParams();
             ChatTheme theme = ChatTheme.valueOf(params.get("theme").stream().collect(Collectors.joining()));
-            String id = params.get("id").stream().collect(Collectors.joining());
-            UserEntity user = userService.findById(id);
+            String uid = params.get("uid").stream().collect(Collectors.joining());
+            UserEntity user = userService.findByUid(uid);
             String room = user.getId()+"_theme="+theme.name();
             client.joinRoom(room);
             ChatEntity chat = chatService.findByUserAndTheme(user, theme);
-            if(chat==null){
-                chat = new ChatEntity();
-                chat.setUser(user);
-                chat.setTheme(theme);
-                chatService.save(chat);
-                UserBot bot = new UserBot(new ArrayList<>(), theme);
+            if((chat!=null && chat.getMessages()==null || chat.getMessages().isEmpty())){
+                UserBot bot = new UserBot(chat, theme, user.getLanguageCode());
                 serverService.saveBotMessage(client, bot.create());
-            }else{
-
             }
-            log.info("Socket ID[{}][{}] - room[{}] - Connected to chat module through", client.getSessionId().toString(), user.getEmail(),room);
+            log.info("Socket ID[{}][{}] - room[{}] - Connected to chat module through", client.getSessionId().toString(), user.getUid(),room);
         };
     }
     private DisconnectListener onDisconnect(){
         return  (client) -> {
+            var params = client.getHandshakeData().getUrlParams();
+            ChatTheme theme = ChatTheme.valueOf(params.get("theme").stream().collect(Collectors.joining()));
+            String uid = params.get("uid").stream().collect(Collectors.joining());
+            UserEntity user = userService.findByUid(uid);
+            String room = user.getId()+"_theme="+theme.name();
+            client.leaveRoom(room);
 
+            log.info("Socket ID[{}][{}] - room[{}] disconnected to chat module through", client.getSessionId().toString(), user.getUid(),room);
         };
     }
 }

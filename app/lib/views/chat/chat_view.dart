@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cupertino_will_pop_scope/cupertino_will_pop_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/ChatTheme.dart';
 import 'package:prime_ai_flutter_ui_kit/config/image_config.dart';
 import 'package:prime_ai_flutter_ui_kit/config/string_config.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/language_controller.dart';
@@ -61,7 +62,8 @@ class ChatView extends StatelessWidget {
             actions: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: SizeConfig.padding20,left: SizeConfig.padding20),
+                  padding: const EdgeInsets.only(
+                      right: SizeConfig.padding20, left: SizeConfig.padding20),
                   child: GestureDetector(
                     onTap: () {
                       Get.toNamed(AppRoutes.upgradeToProView);
@@ -94,9 +96,9 @@ class ChatView extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text(
-                  StringConfig.welcomeTo,
-                  style: TextStyle(
+                Text(
+                  StringConfig.welcomeTo.tr,
+                  style: const TextStyle(
                     fontFamily: FontFamilyConfig.outfitMedium,
                     fontSize: FontSizeConfig.heading4Text,
                     fontWeight: FontWeight.w500,
@@ -118,10 +120,10 @@ class ChatView extends StatelessWidget {
                 const SizedBox(
                   height: SizeConfig.height12,
                 ),
-                const Text(
-                  StringConfig.aiAssistantDescription,
+                Text(
+                  StringConfig.aiAssistantDescription.tr,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: FontFamilyConfig.outfitRegular,
                     fontSize: FontSizeConfig.heading4Text,
                     fontWeight: FontWeight.w400,
@@ -141,7 +143,10 @@ class ChatView extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.startChatView);
+                        Get.toNamed(AppRoutes.startChatView, parameters: {
+                          "theme": ChatTheme.more_assistant.name,
+                          "title": StringConfig.aiAssistant
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
@@ -151,9 +156,9 @@ class ChatView extends StatelessWidget {
                               BorderRadius.circular(SizeConfig.borderRadius52),
                         ),
                       ),
-                      child: const Text(
-                        StringConfig.buttonStartChat,
-                        style: TextStyle(
+                      child: Text(
+                        StringConfig.buttonStartChat.tr,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamilyConfig.outfitSemiBold,
                           fontSize: FontSizeConfig.heading3Text,

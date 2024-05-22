@@ -27,7 +27,8 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   ProfileController profileController = Get.put(ProfileController());
-  BottomNavigationController bottomNavigationController = Get.put(BottomNavigationController());
+  BottomNavigationController bottomNavigationController =
+      Get.put(BottomNavigationController());
   final LanguageController languageController = Get.put(LanguageController());
 
   void goToTab(int tabIndex) {
@@ -55,7 +56,10 @@ class _ProfileViewState extends State<ProfileView> {
             leading: Center(
                 child: Obx(
               () => Padding(
-                padding: EdgeInsets.only(left: languageController.arb.value ? 0 : SizeConfig.padding20),
+                padding: EdgeInsets.only(
+                    left: languageController.arb.value
+                        ? 0
+                        : SizeConfig.padding20),
                 child: Image.asset(
                   ImageConfig.appLogo,
                   width: SizeConfig.width30,
@@ -66,42 +70,46 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: SizeConfig.padding20, top: SizeConfig.padding60, right: SizeConfig.padding20),
+          padding: const EdgeInsets.only(
+              left: SizeConfig.padding20,
+              top: SizeConfig.padding60,
+              right: SizeConfig.padding20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    _pickImageFromGallery();
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(
-                          ImageConfig.profilePickImage,
-                          width: SizeConfig.width122,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.amber,
-                        ),
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: SizeConfig.height46,
-              ),
+              // Center(
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       _pickImageFromGallery();
+              //     },
+              //     child: Stack(
+              //       alignment: Alignment.bottomRight,
+              //       children: [
+              //         ClipRRect(
+              //           borderRadius: BorderRadius.circular(100),
+              //           child: Image.asset(
+              //             ImageConfig.profilePickImage,
+              //             width: SizeConfig.width122,
+              //           ),
+              //         ),
+              //         Container(
+              //           padding: const EdgeInsets.all(5),
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(100),
+              //             color: Colors.amber,
+              //           ),
+              //           child: const Icon(
+              //             Icons.edit,
+              //             color: Colors.white,
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: SizeConfig.height46,
+              // ),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: profileController.profileOptions.length,
@@ -111,12 +119,10 @@ class _ProfileViewState extends State<ProfileView> {
                       InkWell(
                         onTap: () {
                           if (index == 0) {
-                            Get.toNamed(AppRoutes.personalInfoView);
-                          } else if (index == 1) {
                             Get.toNamed(AppRoutes.languageView);
-                          } else if (index == 2) {
+                          } else if (index == 1) {
                             Get.toNamed(AppRoutes.faqsView);
-                          } else if (index == 3) {
+                          } else if (index == 2) {
                             showDialog(
                               context: context,
                               builder: (context) {
@@ -166,7 +172,11 @@ class _ProfileViewState extends State<ProfileView> {
     return Material(
       type: MaterialType.transparency,
       child: Padding(
-        padding: const EdgeInsets.only(left: SizeConfig.padding20, right: SizeConfig.padding20, bottom: SizeConfig.padding20, top: SizeConfig.padding20),
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            right: SizeConfig.padding20,
+            bottom: SizeConfig.padding20,
+            top: SizeConfig.padding20),
         child: Center(
           child: Container(
             padding: const EdgeInsets.all(16.0),
@@ -234,7 +244,8 @@ class _ProfileViewState extends State<ProfileView> {
                             elevation: 0,
                             backgroundColor: ColorConfig.backgroundLightColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius52),
                             ),
                           ),
                           child: const Text(
@@ -255,7 +266,8 @@ class _ProfileViewState extends State<ProfileView> {
                         height: SizeConfig.height52,
                         child: ElevatedButton(
                           onPressed: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             prefs.remove("email");
                             prefs.remove("remember");
                             Get.offAllNamed(AppRoutes.signInView);
@@ -264,7 +276,8 @@ class _ProfileViewState extends State<ProfileView> {
                             elevation: 0,
                             backgroundColor: ColorConfig.primaryColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius52),
                             ),
                           ),
                           child: const Text(

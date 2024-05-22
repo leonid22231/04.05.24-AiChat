@@ -26,8 +26,7 @@ class MoreView extends StatefulWidget {
 
 class _MoreViewState extends State<MoreView> {
   MoreController moreController = Get.put(MoreController());
-  BottomNavigationController bottomNavigationController =
-      Get.put(BottomNavigationController());
+  BottomNavigationController bottomNavigationController = Get.put(BottomNavigationController());
   final LanguageController languageController = Get.put(LanguageController());
 
   void goToTab(int tabIndex) {
@@ -39,7 +38,7 @@ class _MoreViewState extends State<MoreView> {
   Widget build(BuildContext context) {
     languageController.loadSelectedLanguage();
     return DefaultTabController(
-      length: 6,
+      length: 8,
       initialIndex: 0,
       child: ConditionalWillPopScope(
         onWillPop: () async {
@@ -57,27 +56,27 @@ class _MoreViewState extends State<MoreView> {
               title: moreController.isSearchOpen ? null : StringConfig.more,
               toolBarHeight: SizeConfig.height70,
               leading: Center(
-                child:Obx(() =>  Padding(
-                  padding:  EdgeInsets.only(left:languageController.arb.value?0: SizeConfig.padding20),
+                  child: Obx(
+                () => Padding(
+                  padding: EdgeInsets.only(left: languageController.arb.value ? 0 : SizeConfig.padding20),
                   child: Image.asset(
                     ImageConfig.appLogo,
                     width: SizeConfig.width30,
                     height: SizeConfig.height24,
                   ),
-                ),)
-              ),
+                ),
+              )),
               actions: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  width: moreController.isSearchOpen
-                      ? MediaQuery.of(context).size.width - 110
-                      : 0,
+                  width: moreController.isSearchOpen ? MediaQuery.of(context).size.width - 110 : 0,
                   child: moreController.isSearchOpen
                       ? Padding(
                           padding: const EdgeInsets.only(
                             top: SizeConfig.padding08,
                             bottom: SizeConfig.padding08,
-                            left: SizeConfig.padding06, right: SizeConfig.padding06,
+                            left: SizeConfig.padding06,
+                            right: SizeConfig.padding06,
                           ),
                           child: TextFormField(
                             textAlignVertical: TextAlignVertical.bottom,
@@ -100,13 +99,11 @@ class _MoreViewState extends State<MoreView> {
                               filled: true,
                               border: InputBorder.none,
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                    SizeConfig.borderRadius08),
+                                borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                                 borderSide: BorderSide.none,
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                    SizeConfig.borderRadius08),
+                                borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                                 borderSide: BorderSide.none,
                               ),
                             ),
@@ -135,8 +132,7 @@ class _MoreViewState extends State<MoreView> {
                           });
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: SizeConfig.padding20 ,left: SizeConfig.padding20),
+                          padding: const EdgeInsets.only(right: SizeConfig.padding20, left: SizeConfig.padding20),
                           child: Image.asset(
                             ImageConfig.searchMore,
                             width: 20.0,
@@ -154,11 +150,7 @@ class _MoreViewState extends State<MoreView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(
-                            left: SizeConfig.padding20,
-                            top: SizeConfig.padding10,
-                            right: SizeConfig.padding20,
-                            bottom: SizeConfig.padding10),
+                        padding: EdgeInsets.only(left: SizeConfig.padding20, top: SizeConfig.padding10, right: SizeConfig.padding20, bottom: SizeConfig.padding10),
                         child: Text(
                           StringConfig.aiSpecialFeature,
                           textAlign: TextAlign.center,
@@ -174,21 +166,17 @@ class _MoreViewState extends State<MoreView> {
                         height: SizeConfig.height12,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: SizeConfig.padding20,
-                            right: SizeConfig.padding20),
+                        padding: const EdgeInsets.only(left: SizeConfig.padding20, right: SizeConfig.padding20),
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              moreController.isChildVisible =
-                                  !moreController.isChildVisible;
+                              moreController.isChildVisible = !moreController.isChildVisible;
                             });
                           },
                           child: Container(
                             height: SizeConfig.height100,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                               image: const DecorationImage(
                                 image: AssetImage(ImageConfig.imageGenerator),
                                 filterQuality: FilterQuality.high,
@@ -202,23 +190,18 @@ class _MoreViewState extends State<MoreView> {
                                       width: SizeConfig.width183,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Get.toNamed(
-                                              AppRoutes.imageGeneratorView);
+                                          Get.toNamed(AppRoutes.imageGeneratorView);
                                         },
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
-                                          backgroundColor:
-                                              ColorConfig.primaryColor,
+                                          backgroundColor: ColorConfig.primaryColor,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                SizeConfig.borderRadius52),
+                                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
                                           ),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Image.asset(
                                               ImageConfig.magicStick,
@@ -232,12 +215,9 @@ class _MoreViewState extends State<MoreView> {
                                               StringConfig.buttonGenerateNow,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontFamily: FontFamilyConfig
-                                                    .outfitSemiBold,
-                                                fontSize:
-                                                    FontSizeConfig.heading4Text,
-                                                color:
-                                                    ColorConfig.textWhiteColor,
+                                                fontFamily: FontFamilyConfig.outfitSemiBold,
+                                                fontSize: FontSizeConfig.heading4Text,
+                                                color: ColorConfig.textWhiteColor,
                                               ),
                                             ),
                                           ],
@@ -253,21 +233,17 @@ class _MoreViewState extends State<MoreView> {
                         height: SizeConfig.height16,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: SizeConfig.padding20,
-                            right: SizeConfig.padding20),
+                        padding: const EdgeInsets.only(left: SizeConfig.padding20, right: SizeConfig.padding20),
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              moreController.isChild2Visible =
-                                  !moreController.isChild2Visible;
+                              moreController.isChild2Visible = !moreController.isChild2Visible;
                             });
                           },
                           child: Container(
                             height: SizeConfig.height100,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                               image: const DecorationImage(
                                 image: AssetImage(ImageConfig.videoGenerator),
                                 filterQuality: FilterQuality.high,
@@ -281,23 +257,18 @@ class _MoreViewState extends State<MoreView> {
                                       width: SizeConfig.width183,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Get.toNamed(
-                                              AppRoutes.videoGeneratorView);
+                                          Get.toNamed(AppRoutes.videoGeneratorView);
                                         },
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
-                                          backgroundColor:
-                                              ColorConfig.primaryColor,
+                                          backgroundColor: ColorConfig.primaryColor,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                SizeConfig.borderRadius52),
+                                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
                                           ),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Image.asset(
                                               ImageConfig.magicStick,
@@ -311,12 +282,9 @@ class _MoreViewState extends State<MoreView> {
                                               StringConfig.buttonGenerateNow,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontFamily: FontFamilyConfig
-                                                    .outfitSemiBold,
-                                                fontSize:
-                                                    FontSizeConfig.heading4Text,
-                                                color:
-                                                    ColorConfig.textWhiteColor,
+                                                fontFamily: FontFamilyConfig.outfitSemiBold,
+                                                fontSize: FontSizeConfig.heading4Text,
+                                                color: ColorConfig.textWhiteColor,
                                               ),
                                             ),
                                           ],
@@ -332,8 +300,7 @@ class _MoreViewState extends State<MoreView> {
                         height: SizeConfig.height08,
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: SizeConfig.padding20),
+                        padding: const EdgeInsets.only(left: SizeConfig.padding20),
                         child: Container(
                           height: 50,
                           decoration: const BoxDecoration(
@@ -366,15 +333,15 @@ class _MoreViewState extends State<MoreView> {
                               labelColor: ColorConfig.primaryColor,
                               padding: EdgeInsets.zero,
                               unselectedLabelColor: ColorConfig.textColor,
-                              labelPadding: EdgeInsets.only(
-                                  left: SizeConfig.padding15,
-                                  right: SizeConfig.padding15),
+                              labelPadding: EdgeInsets.only(left: SizeConfig.padding15, right: SizeConfig.padding15),
                               tabs: [
                                 Tab(text: StringConfig.allTab),
                                 Tab(text: StringConfig.writingTab),
                                 Tab(text: StringConfig.creativeTab),
                                 Tab(text: StringConfig.businessTab),
+                                Tab(text: StringConfig.lawsTab),
                                 Tab(text: StringConfig.developersTab),
+                                Tab(text: StringConfig.socialTab),
                                 Tab(text: StringConfig.othersTab),
                               ],
                             ),
@@ -388,6 +355,8 @@ class _MoreViewState extends State<MoreView> {
             },
             body: TabBarView(
               children: [
+                AllTabView(),
+                AllTabView(),
                 AllTabView(),
                 AllTabView(),
                 AllTabView(),

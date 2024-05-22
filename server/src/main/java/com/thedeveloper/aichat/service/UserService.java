@@ -13,8 +13,8 @@ public class UserService {
         return userRepository.findUserEntityById(id);
     }
 
-    public UserEntity findByEmail(String email) {
-        return userRepository.findUserEntityByEmail(email);
+    public UserEntity findByUid(String uid) {
+        return userRepository.findUserEntityByUid(uid);
     }
     public void delete(UserEntity userEntity){
         userRepository.delete(userEntity);

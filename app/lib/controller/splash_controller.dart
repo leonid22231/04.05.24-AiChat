@@ -1,6 +1,11 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:prime_ai_flutter_ui_kit/api/RestClient.dart';
+import 'package:prime_ai_flutter_ui_kit/utils/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../routes/app_routes.dart';
 
@@ -12,21 +17,15 @@ class SplashController extends GetxController {
   }
 
   Future<void> islogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString("email");
-    bool? remember = prefs.getBool("remember");
-    bool? welcome = prefs.getBool("welcome");
-    debugPrint("Email $email and remember is $remember");
-    if (email != null && (remember ?? false)) {
-      Timer(const Duration(seconds: 4), () => Get.offAllNamed(AppRoutes.bottomBarView));
-    } else {
-      prefs.remove("email");
-      prefs.remove("remember");
-      if (welcome ?? true) {
-        Timer(const Duration(seconds: 4), () => Get.offAllNamed(AppRoutes.onBoardingView));
-      } else {
-        Timer(const Duration(seconds: 4), () => Get.offAllNamed(AppRoutes.signInView));
-      }
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      await FirebaseAuth.instance.signInAnonymously();
+      user = FirebaseAuth.instance.currentUser;
     }
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString("uid", user!.uid);
+    await Globals.client.login(user.uid, Platform.localeName.split("_")[0]);
+    Timer(const Duration(seconds: 4),
+        () => Get.offAllNamed(AppRoutes.bottomBarView));
   }
 }

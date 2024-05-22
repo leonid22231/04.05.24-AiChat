@@ -72,7 +72,7 @@ class AppRoutes {
     GetPage(name: forgotPasswordView, page: () => const ForgotPasswordView()),
     GetPage(name: forgotPasswordOTPView, page: () => ForgotPasswordOTPView()),
     GetPage(name: createPasswordView, page: () => const CreatePasswordView()),
-    GetPage(name: chatView, page: () =>  ChatView()),
+    GetPage(name: chatView, page: () => ChatView()),
     GetPage(name: bottomBarView, page: () => BottomBarView()),
     GetPage(name: startChatView, page: () => const StartChatView()),
     GetPage(name: writingSeeAllView, page: () => const WritingSeeAllView()),

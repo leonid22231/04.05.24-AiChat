@@ -79,7 +79,7 @@ class StringConfig {
   static const String chat = "Chat";
   static const String more = "More";
   static const String history = "History";
-  static const String profile = "Profile";
+  static const String profile = "Settings";
 
   static const String aiAssistant = "AI Assistant";
   static const String welcomeTo = "Welcome to";
@@ -117,16 +117,19 @@ class StringConfig {
   static const String iCantBear = "I can’t bear";
   static const String iAmNotKeepOn = "I,m not keep on";
   static const String deleteChat = "Delete Chat";
+  static const String changeModel = "Change Model";
   static const String deleteChats = "Delete Chats";
   static const String areYouSureDeleteChats = "Are you sure delete all chats?";
-
+  static const String selectModelToChange = "Select model to change";
   static const String moreView = "More";
   static const String aiSpecialFeature = "AI Special Features";
   static const String allTab = "All";
   static const String writingTab = "Writing";
   static const String creativeTab = "Creative";
   static const String businessTab = "Business";
+  static const String lawsTab = "Laws";
   static const String developersTab = "Developers";
+  static const String socialTab = "Social";
   static const String othersTab = "Others";
   static const String seeAll = "See All";
   static const String translateLanguage = "Translate\nLanguage";
@@ -328,7 +331,7 @@ class StringConfig {
   static const String languages = "Language";
   static const String darkMode = "Dark Mode";
   static const String faqs = "FAQs";
-  static const String logout = "Logout";
+  static const String logout = "Delete history";
   static const String logoutDescription = "Are you sure logout this account?";
   static const String rahulRana = "Rahul Rana";
   static const String exampleEmail = "example@gmail.com";

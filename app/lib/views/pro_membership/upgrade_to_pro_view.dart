@@ -25,7 +25,7 @@ class UpgradeToProView extends StatelessWidget {
       appBar: CommonAppBar(
         backgroundColor: ColorConfig.backgroundWhiteColor,
         centerTitle: true,
-        title: StringConfig.upgradeToPro,
+        title: StringConfig.upgradeToPro.tr,
         leading: Center(
           child: Padding(
             padding: const EdgeInsets.only(left: SizeConfig.padding05),
@@ -42,13 +42,15 @@ class UpgradeToProView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(right: SizeConfig.padding20, left: SizeConfig.padding20, top: SizeConfig.padding10),
+        padding: const EdgeInsets.only(
+            right: SizeConfig.padding20,
+            left: SizeConfig.padding20,
+            top: SizeConfig.padding10),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 width: double.infinity,
-                height: SizeConfig.height90,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(SizeConfig.borderRadius10),
@@ -57,7 +59,11 @@ class UpgradeToProView extends StatelessWidget {
                   color: ColorConfig.primaryColor,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: SizeConfig.padding12, right: SizeConfig.padding12, bottom: SizeConfig.padding12, top: SizeConfig.padding10),
+                  padding: const EdgeInsets.only(
+                      left: SizeConfig.padding12,
+                      right: SizeConfig.padding12,
+                      bottom: SizeConfig.padding12,
+                      top: SizeConfig.padding10),
                   child: Column(
                     children: [
                       Image.asset(
@@ -67,10 +73,10 @@ class UpgradeToProView extends StatelessWidget {
                       const SizedBox(
                         height: SizeConfig.height08,
                       ),
-                      const Text(
-                        StringConfig.enjoyAllFeatures,
+                      Text(
+                        StringConfig.enjoyAllFeatures.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: FontSizeConfig.body2Text,
                           fontWeight: FontWeight.w400,
                           fontFamily: FontFamilyConfig.outfitLight,
@@ -84,9 +90,10 @@ class UpgradeToProView extends StatelessWidget {
               Container(
                 height: SizeConfig.height485,
                 padding: const EdgeInsets.only(
-                  left: SizeConfig.padding16, top: SizeConfig.padding15,
-                  bottom: SizeConfig.padding16, right: SizeConfig.padding16
-                ),
+                    left: SizeConfig.padding16,
+                    top: SizeConfig.padding15,
+                    bottom: SizeConfig.padding16,
+                    right: SizeConfig.padding16),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(SizeConfig.borderRadius10),
@@ -105,7 +112,8 @@ class UpgradeToProView extends StatelessWidget {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: SizeConfig.padding15),
+                          padding: const EdgeInsets.only(
+                              bottom: SizeConfig.padding15),
                           child: Row(
                             children: [
                               Image.asset(
@@ -115,13 +123,16 @@ class UpgradeToProView extends StatelessWidget {
                               const SizedBox(
                                 width: SizeConfig.width10,
                               ),
-                              Text(
-                                upgradeProController.featuresList[index],
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: FontSizeConfig.body1Text,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamilyConfig.outfitRegular,
+                              Expanded(
+                                child: Text(
+                                  upgradeProController.featuresList[index].tr,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: FontSizeConfig.body1Text,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: FontFamilyConfig.outfitRegular,
+                                  ),
                                 ),
                               ),
                             ],
@@ -137,7 +148,11 @@ class UpgradeToProView extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: SizeConfig.padding20, bottom: SizeConfig.padding15, top: SizeConfig.padding15, right: SizeConfig.padding20),
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            bottom: SizeConfig.padding15,
+            top: SizeConfig.padding15,
+            right: SizeConfig.padding20),
         child: SizedBox(
           height: SizeConfig.height52,
           width: double.infinity,

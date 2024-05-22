@@ -3,69 +3,68 @@ import 'package:prime_ai_flutter_ui_kit/config/image_config.dart';
 import 'package:prime_ai_flutter_ui_kit/config/string_config.dart';
 
 class UpgradeProController extends GetxController {
-
   int selectedIndex = -1;
 
   List<String> featuresList = [
-    StringConfig.feature1,
-    StringConfig.feature2,
-    StringConfig.feature3,
-    StringConfig.feature4,
-    StringConfig.feature5,
-    StringConfig.feature6,
-    StringConfig.feature7,
-    StringConfig.feature8,
-    StringConfig.feature9,
-    StringConfig.feature10,
-    StringConfig.feature11,
-    StringConfig.feature12,
-    StringConfig.feature13,
-    StringConfig.feature14,
+    StringConfig.feature1.tr,
+    StringConfig.feature2.tr,
+    StringConfig.feature3.tr,
+    StringConfig.feature4.tr,
+    StringConfig.feature5.tr,
+    StringConfig.feature6.tr,
+    StringConfig.feature7.tr,
+    StringConfig.feature8.tr,
+    StringConfig.feature9.tr,
+    StringConfig.feature10.tr,
+    StringConfig.feature11.tr,
+    StringConfig.feature12.tr,
+    StringConfig.feature13.tr,
+    StringConfig.feature14.tr,
   ];
 
   List<String> priceList = [
-    StringConfig.dollar20,
-    StringConfig.dollar40,
-    StringConfig.dollar70,
+    StringConfig.dollar20.tr,
+    StringConfig.dollar40.tr,
+    StringConfig.dollar70.tr,
   ];
 
   List<String> planMonthList = [
-    StringConfig.month1,
-    StringConfig.month6,
-    StringConfig.month12,
+    StringConfig.month1.tr,
+    StringConfig.month6.tr,
+    StringConfig.month12.tr,
   ];
 
   List<String> benefitList = [
-    StringConfig.save10,
-    StringConfig.save40,
-    StringConfig.save40,
+    StringConfig.save10.tr,
+    StringConfig.save40.tr,
+    StringConfig.save40.tr,
   ];
 
   List<String> planFeatureList = [
-    StringConfig.removeAddsAndWatermark,
-    StringConfig.unlimitedVideoGeneration,
-    StringConfig.cloudStorageOf50GB,
+    StringConfig.removeAddsAndWatermark.tr,
+    StringConfig.unlimitedVideoGeneration.tr,
+    StringConfig.cloudStorageOf50GB.tr,
   ];
 
   List<String> planFeatureList2 = [
-    StringConfig.collaborationAndTeamFeature,
-    StringConfig.priorityCustomerSupport,
-    StringConfig.downloadVideoInHighResolution,
-    StringConfig.unlimitedVideoGeneration,
+    StringConfig.collaborationAndTeamFeature.tr,
+    StringConfig.priorityCustomerSupport.tr,
+    StringConfig.downloadVideoInHighResolution.tr,
+    StringConfig.unlimitedVideoGeneration.tr,
   ];
 
   List<String> planFeatureList3 = [
-    StringConfig.fasterProcessingTimes,
-    StringConfig.priorityAccessToNewFeatures,
-    StringConfig.cloudStorageOf50GB,
+    StringConfig.fasterProcessingTimes.tr,
+    StringConfig.priorityAccessToNewFeatures.tr,
+    StringConfig.cloudStorageOf50GB.tr,
   ];
 
   List<String> paymentModeList = [
-    StringConfig.payPal,
-    StringConfig.googlePay,
-    StringConfig.applePay,
-    StringConfig.visaCard,
-    StringConfig.americanExpressCard,
+    StringConfig.payPal.tr,
+    StringConfig.googlePay.tr,
+    StringConfig.applePay.tr,
+    StringConfig.visaCard.tr,
+    StringConfig.americanExpressCard.tr,
   ];
 
   List<String> paymentModeImage = [

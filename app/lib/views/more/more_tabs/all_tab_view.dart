@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:prime_ai_flutter_ui_kit/api/enums/ChatTheme.dart';
 import 'package:prime_ai_flutter_ui_kit/config/size_config.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/language_controller.dart';
 import 'package:prime_ai_flutter_ui_kit/controller/more_controller.dart';
@@ -77,13 +78,15 @@ class AllTabView extends StatelessWidget {
                                 : 0),
                         child: GestureDetector(
                           onTap: () {
-                            if (isSelectable) {
-                              if (index == 0) {
-                                Get.toNamed(AppRoutes.articlesView);
-                              } else if (index == 1) {
-                                Get.toNamed(AppRoutes.translateLanguageView);
-                              }
-                            }
+                            debugPrint("Tap writing $index");
+                          
+                            // if (isSelectable) {
+                            //   if (index == 0) {
+                            //     Get.toNamed(AppRoutes.articlesView);
+                            //   } else if (index == 1) {
+                            //     Get.toNamed(AppRoutes.translateLanguageView);
+                            //   }
+                            // }
                           },
                           child: Container(
                             width: SizeConfig.width151,
@@ -186,54 +189,67 @@ class AllTabView extends StatelessWidget {
                             right: languageController.arb.value
                                 ? 0
                                 : SizeConfig.padding16),
-                        child: Container(
-                          width: SizeConfig.width151,
-                          height: SizeConfig.height157,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                SizeConfig.borderRadius16),
-                            color: ColorConfig.backgroundColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(SizeConfig.padding16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image(
-                                  image: AssetImage(moreController
-                                      .creativeSectionImage[index]),
-                                  width: SizeConfig.width38,
-                                ),
-                                const SizedBox(
-                                  height: SizeConfig.height08,
-                                ),
-                                Text(
-                                  moreController
-                                      .creativeSectionMainStrings[index],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: FontFamilyConfig.outfitMedium,
-                                    fontSize: FontSizeConfig.heading4Text,
-                                    color: ColorConfig.textColor,
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap creative $index");
+                            ChatTheme theme = ChatTheme.more_assistant;
+
+                            Get.toNamed(AppRoutes.startChatView, parameters: {
+                              "title": moreController
+                                  .creativeSectionMainStrings[index],
+                              "theme": theme.name
+                            });
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(moreController
+                                        .creativeSectionImage[index]),
+                                    width: SizeConfig.width38,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: SizeConfig.height06,
-                                ),
-                                Expanded(
-                                  child: Text(
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
                                     moreController
-                                        .creativeSectionSubStrings[index],
+                                        .creativeSectionMainStrings[index],
                                     style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily:
-                                          FontFamilyConfig.outfitRegular,
-                                      fontSize: FontSizeConfig.body2Text,
-                                      color: ColorConfig.textLightColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .creativeSectionSubStrings[index],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -277,63 +293,178 @@ class AllTabView extends StatelessWidget {
                 itemCount: moreController.businessSectionSubStrings.length,
                 itemBuilder: (context, index) {
                   return Obx(() => Padding(
-                    padding:  EdgeInsets.only(
-                        left: languageController.arb.value
-                            ? SizeConfig.padding16
-                            : 0,
-                        right: languageController.arb.value
-                            ? 0
-                            : SizeConfig.padding16),
-                    child: Container(
-                      width: SizeConfig.width151,
-                      height: SizeConfig.height157,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(SizeConfig.borderRadius16),
-                        color: ColorConfig.backgroundColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(SizeConfig.padding16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                  moreController.businessSectionImage[index]),
-                              width: SizeConfig.width38,
+                        padding: EdgeInsets.only(
+                            left: languageController.arb.value
+                                ? SizeConfig.padding16
+                                : 0,
+                            right: languageController.arb.value
+                                ? 0
+                                : SizeConfig.padding16),
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap business $index");
+
+                            //Get.toNamed(AppRoutes.startChatView, parameters: {"title": moreController.businessSectionMainStrings[index], "theme": theme.name});
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height08,
-                            ),
-                            Text(
-                              moreController.businessSectionMainStrings[index],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: FontFamilyConfig.outfitMedium,
-                                fontSize: FontSizeConfig.heading4Text,
-                                color: ColorConfig.textColor,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(moreController
+                                        .businessSectionImage[index]),
+                                    width: SizeConfig.width38,
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
+                                    moreController
+                                        .businessSectionMainStrings[index],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .businessSectionSubStrings[index],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height06,
-                            ),
-                            Expanded(
-                              child: Text(
-                                moreController.businessSectionSubStrings[index],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamilyConfig.outfitRegular,
-                                  fontSize: FontSizeConfig.body2Text,
-                                  color: ColorConfig.textLightColor,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ));
+                      ));
+                },
+              ),
+            ),
+            const SizedBox(
+              height: SizeConfig.height24,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  StringConfig.lawsTab,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontFamilyConfig.outfitSemiBold,
+                    fontSize: FontSizeConfig.heading3Text,
+                    color: ColorConfig.textColor,
+                  ),
+                ),
+                Text(
+                  StringConfig.seeAll,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontFamilyConfig.outfitMedium,
+                    fontSize: FontSizeConfig.body2Text,
+                    color: ColorConfig.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: SizeConfig.height16,
+            ),
+            SizedBox(
+              height: SizeConfig.height157,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: moreController.lawsSectionMainString.length,
+                itemBuilder: (context, index) {
+                  return Obx(() => Padding(
+                        padding: EdgeInsets.only(
+                            left: languageController.arb.value
+                                ? SizeConfig.padding16
+                                : 0,
+                            right: languageController.arb.value
+                                ? 0
+                                : SizeConfig.padding16),
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap laws $index");
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        moreController.lawsSectionImage[index]),
+                                    width: SizeConfig.width38,
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
+                                    moreController.lawsSectionMainString[index],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .lawsSectionSubStrings[index],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ));
                 },
               ),
             ),
@@ -373,63 +504,175 @@ class AllTabView extends StatelessWidget {
                 itemCount: moreController.developersSectionMainStrings.length,
                 itemBuilder: (context, index) {
                   return Obx(() => Padding(
-                    padding:  EdgeInsets.only( left: languageController.arb.value
-                        ? SizeConfig.padding16
-                        : 0,
-                        right: languageController.arb.value
-                            ? 0
-                            : SizeConfig.padding16),
-                    child: Container(
-                      width: SizeConfig.width151,
-                      height: SizeConfig.height157,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(SizeConfig.borderRadius16),
-                        color: ColorConfig.backgroundColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(SizeConfig.padding16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                  moreController.developersSectionImage[index]),
-                              width: SizeConfig.width38,
+                        padding: EdgeInsets.only(
+                            left: languageController.arb.value
+                                ? SizeConfig.padding16
+                                : 0,
+                            right: languageController.arb.value
+                                ? 0
+                                : SizeConfig.padding16),
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap develop $index");
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height08,
-                            ),
-                            Text(
-                              moreController
-                                  .developersSectionMainStrings[index],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: FontFamilyConfig.outfitMedium,
-                                fontSize: FontSizeConfig.heading4Text,
-                                color: ColorConfig.textColor,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(moreController
+                                        .developersSectionImage[index]),
+                                    width: SizeConfig.width38,
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
+                                    moreController
+                                        .developersSectionMainStrings[index],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .developersSectionSubStrings[index],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height06,
-                            ),
-                            Expanded(
-                              child: Text(
-                                moreController
-                                    .developersSectionSubStrings[index],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamilyConfig.outfitRegular,
-                                  fontSize: FontSizeConfig.body2Text,
-                                  color: ColorConfig.textLightColor,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ));
+                      ));
+                },
+              ),
+            ),
+            const SizedBox(
+              height: SizeConfig.height24,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  StringConfig.socialTab,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontFamilyConfig.outfitSemiBold,
+                    fontSize: FontSizeConfig.heading3Text,
+                    color: ColorConfig.textColor,
+                  ),
+                ),
+                Text(
+                  StringConfig.seeAll,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontFamilyConfig.outfitMedium,
+                    fontSize: FontSizeConfig.body2Text,
+                    color: ColorConfig.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: SizeConfig.height16,
+            ),
+            SizedBox(
+              height: SizeConfig.height157,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: moreController.socialSectionMainStrings.length,
+                itemBuilder: (context, index) {
+                  return Obx(() => Padding(
+                        padding: EdgeInsets.only(
+                            left: languageController.arb.value
+                                ? SizeConfig.padding16
+                                : 0,
+                            right: languageController.arb.value
+                                ? 0
+                                : SizeConfig.padding16),
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap social $index");
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(moreController
+                                        .socialSectionImage[index]),
+                                    width: SizeConfig.width38,
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
+                                    moreController
+                                        .socialSectionMainStrings[index],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .socialSectionSubStrings[index],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ));
                 },
               ),
             ),
@@ -469,62 +712,72 @@ class AllTabView extends StatelessWidget {
                 itemCount: moreController.othersSectionMainStrings.length,
                 itemBuilder: (context, index) {
                   return Obx(() => Padding(
-                    padding:  EdgeInsets.only(left: languageController.arb.value
-                        ? SizeConfig.padding16
-                        : 0,
-                        right: languageController.arb.value
-                            ? 0
-                            : SizeConfig.padding16),
-                    child: Container(
-                      width: SizeConfig.width151,
-                      height: SizeConfig.height157,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(SizeConfig.borderRadius16),
-                        color: ColorConfig.backgroundColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(SizeConfig.padding16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                  moreController.othersSectionImage[index]),
-                              width: SizeConfig.width38,
+                        padding: EdgeInsets.only(
+                            left: languageController.arb.value
+                                ? SizeConfig.padding16
+                                : 0,
+                            right: languageController.arb.value
+                                ? 0
+                                : SizeConfig.padding16),
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint("Tap more $index");
+                          },
+                          child: Container(
+                            width: SizeConfig.width151,
+                            height: SizeConfig.height157,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius16),
+                              color: ColorConfig.backgroundColor,
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height08,
-                            ),
-                            Text(
-                              moreController.othersSectionMainStrings[index],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: FontFamilyConfig.outfitMedium,
-                                fontSize: FontSizeConfig.heading4Text,
-                                color: ColorConfig.textColor,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image(
+                                    image: AssetImage(moreController
+                                        .othersSectionImage[index]),
+                                    width: SizeConfig.width38,
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height08,
+                                  ),
+                                  Text(
+                                    moreController
+                                        .othersSectionMainStrings[index],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontFamilyConfig.outfitMedium,
+                                      fontSize: FontSizeConfig.heading4Text,
+                                      color: ColorConfig.textColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: SizeConfig.height06,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      moreController
+                                          .othersSectionSubStrings[index],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily:
+                                            FontFamilyConfig.outfitRegular,
+                                        fontSize: FontSizeConfig.body2Text,
+                                        color: ColorConfig.textLightColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              height: SizeConfig.height06,
-                            ),
-                            Expanded(
-                              child: Text(
-                                moreController.othersSectionSubStrings[index],
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontFamilyConfig.outfitRegular,
-                                  fontSize: FontSizeConfig.body2Text,
-                                  color: ColorConfig.textLightColor,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ));
+                      ));
                 },
               ),
             ),

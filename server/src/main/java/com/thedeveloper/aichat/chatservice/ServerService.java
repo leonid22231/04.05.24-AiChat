@@ -35,8 +35,8 @@ public class ServerService {
     public void saveMessage(SocketIOClient client, MessageModel message){
         var params = client.getHandshakeData().getUrlParams();
         ChatTheme theme = ChatTheme.valueOf(params.get("theme").stream().collect(Collectors.joining()));
-        String id = params.get("id").stream().collect(Collectors.joining());
-        UserEntity user = userService.findById(id);
+        String uid = params.get("uid").stream().collect(Collectors.joining());
+        UserEntity user = userService.findByUid(uid);
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setContent(message.getContent());
         messageEntity.setMode(MessageMode.User);
@@ -45,14 +45,14 @@ public class ServerService {
         ChatEntity chat = chatService.findByUserAndTheme(user, theme);
         chat.getMessages().add(messageEntity);
         chatService.save(chat);
-        UserBot userBot = new UserBot(chat.getMessages(), theme);
+        UserBot userBot = new UserBot(chat, theme,uid);
         saveBotMessage(client, userBot.execute(message.getContent()));
     }
     public void saveBotMessage(SocketIOClient client, List<ChatMessage> list_messages){
         var params = client.getHandshakeData().getUrlParams();
         ChatTheme theme = ChatTheme.valueOf(params.get("theme").stream().collect(Collectors.joining()));
-        String id = params.get("id").stream().collect(Collectors.joining());
-        UserEntity user = userService.findById(id);
+        String uid = params.get("uid").stream().collect(Collectors.joining());
+        UserEntity user = userService.findByUid(uid);
         ChatEntity chat = chatService.findByUserAndTheme(user, theme);
         String room = user.getId()+"_theme="+theme.name();
         for(ChatMessage message : list_messages){
@@ -62,8 +62,8 @@ public class ServerService {
             messageEntity.setMode(MessageMode.Ai);
             messageEntity.setSend_time(new Date());
             chat.getMessages().add(messageEntity);
-            sendSocketMessage(client, messageEntity, room, true);
             chatService.save(chat);
+            sendSocketMessage(client, messageEntity, room, true);
         }
     }
 }

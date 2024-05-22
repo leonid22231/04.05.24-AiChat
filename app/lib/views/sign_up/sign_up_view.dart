@@ -111,7 +111,8 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                           onChanged: (value) {
                             setState(() {
-                              signUpController.isEmail = signUpController.emailController.text.isNotEmpty;
+                              signUpController.isEmail = signUpController
+                                  .emailController.text.isNotEmpty;
                               signUpController.showError = false;
                             });
                           },
@@ -125,7 +126,11 @@ class _SignUpViewState extends State<SignUpView> {
                               fontFamily: FontFamilyConfig.outfitLight,
                               color: ColorConfig.textLightColor,
                             ),
-                            labelText: signUpController.isFocusedTextField1 || signUpController.emailController.text.isNotEmpty ? StringConfig.email : null,
+                            labelText: signUpController.isFocusedTextField1 ||
+                                    signUpController
+                                        .emailController.text.isNotEmpty
+                                ? StringConfig.email
+                                : null,
                             labelStyle: const TextStyle(
                               fontSize: FontSizeConfig.heading4Text,
                               fontWeight: FontWeight.w300,
@@ -134,24 +139,32 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                                color: ColorConfig.textFieldBorderColor
+                                    .withOpacity(.3),
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: signUpController.showError ? Colors.red : ColorConfig.textFieldBorderColor,
+                                color: signUpController.showError
+                                    ? Colors.red
+                                    : ColorConfig.textFieldBorderColor,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: signUpController.showError ? Colors.red : ColorConfig.primaryColor,
+                                color: signUpController.showError
+                                    ? Colors.red
+                                    : ColorConfig.primaryColor,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                           ),
                         ),
@@ -160,7 +173,9 @@ class _SignUpViewState extends State<SignUpView> {
                     Visibility(
                       visible: signUpController.showError,
                       child: const Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.padding08, left: SizeConfig.padding08),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.padding08,
+                            left: SizeConfig.padding08),
                         child: Row(
                           children: [
                             Icon(
@@ -205,7 +220,8 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                           onChanged: (value) {
                             setState(() {
-                              signUpController.isPassword = signUpController.passwordController.text.isNotEmpty;
+                              signUpController.isPassword = signUpController
+                                  .passwordController.text.isNotEmpty;
                               signUpController.showError2 = false;
                             });
                           },
@@ -219,7 +235,11 @@ class _SignUpViewState extends State<SignUpView> {
                               fontFamily: FontFamilyConfig.outfitLight,
                               color: ColorConfig.textLightColor,
                             ),
-                            labelText: signUpController.isFocusedTextField2 || signUpController.passwordController.text.isNotEmpty ? StringConfig.password : null,
+                            labelText: signUpController.isFocusedTextField2 ||
+                                    signUpController
+                                        .passwordController.text.isNotEmpty
+                                ? StringConfig.password
+                                : null,
                             labelStyle: const TextStyle(
                               fontSize: FontSizeConfig.heading4Text,
                               fontWeight: FontWeight.w300,
@@ -228,33 +248,46 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                                color: ColorConfig.textFieldBorderColor
+                                    .withOpacity(.3),
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: signUpController.showError2 ? Colors.red : ColorConfig.textFieldBorderColor,
+                                color: signUpController.showError2
+                                    ? Colors.red
+                                    : ColorConfig.textFieldBorderColor,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: signUpController.showError2 ? Colors.red : ColorConfig.primaryColor,
+                                color: signUpController.showError2
+                                    ? Colors.red
+                                    : ColorConfig.primaryColor,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.borderRadius08),
                             ),
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.all(SizeConfig.padding15),
+                              padding:
+                                  const EdgeInsets.all(SizeConfig.padding15),
                               child: GestureDetector(
                                 onTap: _togglePasswordVisibility,
                                 child: Image(
-                                  image: AssetImage(signUpController.obscureText ? ImageConfig.passwordVisible : ImageConfig.passwordShow),
+                                  image: AssetImage(signUpController.obscureText
+                                      ? ImageConfig.passwordVisible
+                                      : ImageConfig.passwordShow),
                                   width: SizeConfig.width18,
-                                  color: signUpController.isFocusedTextField2 ? ColorConfig.primaryColor : ColorConfig.textColor,
+                                  color: signUpController.isFocusedTextField2
+                                      ? ColorConfig.primaryColor
+                                      : ColorConfig.textColor,
                                 ),
                               ),
                             ),
@@ -265,7 +298,9 @@ class _SignUpViewState extends State<SignUpView> {
                     Visibility(
                       visible: signUpController.showError2,
                       child: const Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.padding08, left: SizeConfig.padding08),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.padding08,
+                            left: SizeConfig.padding08),
                         child: Row(
                           children: [
                             Icon(
@@ -300,18 +335,25 @@ class _SignUpViewState extends State<SignUpView> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      signUpController.showError = !signUpController.isEmail || signUpController.emailController.text.isEmpty;
-                      signUpController.showError2 = !signUpController.isPassword || signUpController.passwordController.text.isEmpty;
+                      signUpController.showError = !signUpController.isEmail ||
+                          signUpController.emailController.text.isEmpty;
+                      signUpController.showError2 =
+                          !signUpController.isPassword ||
+                              signUpController.passwordController.text.isEmpty;
                     });
-                    if (signUpController.formSignUpKey.currentState!.validate() && !signUpController.showError && !signUpController.showError2) {
+                    if (signUpController.formSignUpKey.currentState!
+                            .validate() &&
+                        !signUpController.showError &&
+                        !signUpController.showError2) {
                       if (signUpController.emailController.text.isNotEmpty) {
-                        if (signUpController.passwordController.text.isNotEmpty) {
-                          Globals.client.register(signUpController.emailController.text, signUpController.passwordController.text).then((value) async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setString("email", signUpController.emailController.text);
-                            prefs.setBool("remember", true);
-                            Get.toNamed(AppRoutes.otpView, parameters: {"code": value, "email": signUpController.emailController.text});
-                          });
+                        if (signUpController
+                            .passwordController.text.isNotEmpty) {
+                          // Globals.client.register(signUpController.emailController.text, signUpController.passwordController.text).then((value) async {
+                          //   SharedPreferences prefs = await SharedPreferences.getInstance();
+                          //   prefs.setString("email", signUpController.emailController.text);
+                          //   prefs.setBool("remember", true);
+                          //   Get.toNamed(AppRoutes.otpView, parameters: {"code": value, "email": signUpController.emailController.text});
+                          // });
                         }
                       } else {
                         signUpController.showError = true;
@@ -323,7 +365,8 @@ class _SignUpViewState extends State<SignUpView> {
                     elevation: 0,
                     backgroundColor: ColorConfig.primaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius52),
                     ),
                   ),
                   child: const Text(
@@ -369,7 +412,8 @@ class _SignUpViewState extends State<SignUpView> {
                 height: SizeConfig.height34,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: SizeConfig.padding16, right: SizeConfig.padding16),
+                padding: const EdgeInsets.only(
+                    left: SizeConfig.padding16, right: SizeConfig.padding16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -377,7 +421,8 @@ class _SignUpViewState extends State<SignUpView> {
                       width: SizeConfig.width85,
                       height: SizeConfig.height54,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(SizeConfig.borderRadius15),
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.borderRadius15),
                         border: Border.all(
                           color: ColorConfig.textFieldBorderColor,
                         ),
@@ -394,7 +439,8 @@ class _SignUpViewState extends State<SignUpView> {
                       width: SizeConfig.width85,
                       height: SizeConfig.height54,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(SizeConfig.borderRadius15),
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.borderRadius15),
                         border: Border.all(
                           color: ColorConfig.textFieldBorderColor,
                         ),
@@ -411,7 +457,8 @@ class _SignUpViewState extends State<SignUpView> {
                       width: SizeConfig.width85,
                       height: SizeConfig.height54,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(SizeConfig.borderRadius15),
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.borderRadius15),
                         border: Border.all(
                           color: ColorConfig.textFieldBorderColor,
                         ),

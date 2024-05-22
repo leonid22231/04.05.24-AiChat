@@ -28,7 +28,7 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
   Widget build(BuildContext context) {
     languageController.loadSelectedLanguage();
     return DefaultTabController(
-      length: 6,
+      length: 8,
       initialIndex: 1,
       child: Scaffold(
         backgroundColor: ColorConfig.backgroundWhiteColor,
@@ -55,9 +55,7 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
             actions: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                width: moreController.isSearchOpen
-                    ? MediaQuery.of(context).size.width - 100
-                    : 0,
+                width: moreController.isSearchOpen ? MediaQuery.of(context).size.width - 100 : 0,
                 child: moreController.isSearchOpen
                     ? Padding(
                         padding: const EdgeInsets.only(
@@ -86,13 +84,11 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
                             filled: true,
                             border: InputBorder.none,
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                               borderSide: BorderSide.none,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  SizeConfig.borderRadius08),
+                              borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
                               borderSide: BorderSide.none,
                             ),
                           ),
@@ -121,8 +117,7 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
                         });
                       },
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: SizeConfig.padding20,left: SizeConfig.padding20),
+                        padding: const EdgeInsets.only(right: SizeConfig.padding20, left: SizeConfig.padding20),
                         child: Image.asset(
                           ImageConfig.searchMore,
                           width: 20.0,
@@ -134,13 +129,7 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
                 preferredSize: const Size.fromHeight(SizeConfig.height48),
                 child: Obx(
                   () => Padding(
-                    padding: EdgeInsets.only(
-                        right: languageController.arb.value
-                            ? SizeConfig.padding20
-                            : 0, left: languageController.arb.value
-                            ? 0
-                            : SizeConfig.padding20
-                    ),
+                    padding: EdgeInsets.only(right: languageController.arb.value ? SizeConfig.padding20 : 0, left: languageController.arb.value ? 0 : SizeConfig.padding20),
                     child: Container(
                       height: 50,
                       decoration: const BoxDecoration(
@@ -171,15 +160,15 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
                         labelColor: ColorConfig.primaryColor,
                         padding: EdgeInsets.zero,
                         unselectedLabelColor: ColorConfig.textColor,
-                        labelPadding: const EdgeInsets.only(
-                            left: SizeConfig.padding15,
-                            right: SizeConfig.padding15),
+                        labelPadding: const EdgeInsets.only(left: SizeConfig.padding15, right: SizeConfig.padding15),
                         tabs: const [
                           Tab(text: StringConfig.allTab),
                           Tab(text: StringConfig.writingTab),
                           Tab(text: StringConfig.creativeTab),
                           Tab(text: StringConfig.businessTab),
+                          Tab(text: StringConfig.lawsTab),
                           Tab(text: StringConfig.developersTab),
+                          Tab(text: StringConfig.socialTab),
                           Tab(text: StringConfig.othersTab),
                         ],
                       ),
@@ -190,6 +179,8 @@ class _WritingSeeAllViewState extends State<WritingSeeAllView> {
         ),
         body: TabBarView(
           children: [
+            WritingTabView(),
+            WritingTabView(),
             WritingTabView(),
             WritingTabView(),
             WritingTabView(),

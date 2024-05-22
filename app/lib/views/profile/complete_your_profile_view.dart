@@ -18,7 +18,8 @@ class CompleteYourProfileView extends StatefulWidget {
   const CompleteYourProfileView({Key? key}) : super(key: key);
 
   @override
-  State<CompleteYourProfileView> createState() => _CompleteYourProfileViewState();
+  State<CompleteYourProfileView> createState() =>
+      _CompleteYourProfileViewState();
 }
 
 class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
@@ -73,7 +74,8 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
     if (picked != null && picked != profileController.selectedDate) {
       setState(() {
         profileController.selectedDate = picked;
-        profileController.dateOfBirthController.text = "${picked.toLocal()}".split(' ')[0];
+        profileController.dateOfBirthController.text =
+            "${picked.toLocal()}".split(' ')[0];
       });
     }
   }
@@ -145,7 +147,8 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                   onTap: _pickImageFromGallery,
                   child: profileController.selectedImage != null
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(SizeConfig.borderRadius50),
+                          borderRadius:
+                              BorderRadius.circular(SizeConfig.borderRadius50),
                           child: Image.file(
                             profileController.selectedImage!,
                             width: SizeConfig.width110,
@@ -191,7 +194,11 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textLightColor,
                           ),
-                          labelText: profileController.isFocusedTextField1 || profileController.fullNameController.text.isNotEmpty ? StringConfig.name : null,
+                          labelText: profileController.isFocusedTextField1 ||
+                                  profileController
+                                      .fullNameController.text.isNotEmpty
+                              ? StringConfig.name
+                              : null,
                           labelStyle: const TextStyle(
                             fontSize: FontSizeConfig.heading4Text,
                             fontWeight: FontWeight.w300,
@@ -200,24 +207,28 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                              color: ColorConfig.textFieldBorderColor
+                                  .withOpacity(.3),
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.textFieldBorderColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.primaryColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                         ),
                       ),
@@ -254,37 +265,48 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textLightColor,
                           ),
-                          labelText: profileController.isFocusedTextField2 || profileController.phoneNumberController.text.isNotEmpty ? StringConfig.phoneNumber : null,
+                          labelText: profileController.isFocusedTextField2 ||
+                                  profileController
+                                      .phoneNumberController.text.isNotEmpty
+                              ? StringConfig.phoneNumber
+                              : null,
                           labelStyle: const TextStyle(
                             fontSize: FontSizeConfig.heading4Text,
                             fontWeight: FontWeight.w300,
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textColor,
                           ),
-                          contentPadding: const EdgeInsets.only(left: 56.0), // Adjust the left padding as needed
+                          contentPadding: const EdgeInsets.only(
+                              left: 56.0), // Adjust the left padding as needed
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                              color: ColorConfig.textFieldBorderColor
+                                  .withOpacity(.3),
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.textFieldBorderColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.primaryColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           prefixIcon: Padding(
-                            padding: const EdgeInsets.only(left: SizeConfig.padding15, right: SizeConfig.padding05),
+                            padding: const EdgeInsets.only(
+                                left: SizeConfig.padding15,
+                                right: SizeConfig.padding05),
                             child: GestureDetector(
                               onTap: () {
                                 _showCountryPicker();
@@ -294,14 +316,16 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                                 child: Row(
                                   children: [
                                     Image(
-                                      image: AssetImage(profileController.selectedCountry),
+                                      image: AssetImage(
+                                          profileController.selectedCountry),
                                       width: SizeConfig.width30,
                                     ),
                                     const SizedBox(
                                       width: SizeConfig.width06,
                                     ),
                                     const Image(
-                                      image: AssetImage(ImageConfig.dropdownArrow),
+                                      image:
+                                          AssetImage(ImageConfig.dropdownArrow),
                                       width: SizeConfig.width18,
                                       color: ColorConfig.textLightColor,
                                     ),
@@ -344,7 +368,11 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textLightColor,
                           ),
-                          labelText: profileController.isFocusedTextField3 || profileController.genderController.text.isNotEmpty ? StringConfig.gender : null,
+                          labelText: profileController.isFocusedTextField3 ||
+                                  profileController
+                                      .genderController.text.isNotEmpty
+                              ? StringConfig.gender
+                              : null,
                           labelStyle: const TextStyle(
                             fontSize: FontSizeConfig.heading4Text,
                             fontWeight: FontWeight.w300,
@@ -353,24 +381,28 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                              color: ColorConfig.textFieldBorderColor
+                                  .withOpacity(.3),
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.textFieldBorderColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.primaryColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           suffixIcon: Padding(
                             padding: const EdgeInsets.all(SizeConfig.padding15),
@@ -391,9 +423,12 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                                 left: 35,
                                 content: buildDropdownMenu(),
                                 child: Image(
-                                  image: const AssetImage(ImageConfig.dropdownArrow),
+                                  image: const AssetImage(
+                                      ImageConfig.dropdownArrow),
                                   width: SizeConfig.width18,
-                                  color: profileController.isFocusedTextField3 ? ColorConfig.textColor : ColorConfig.textLightColor,
+                                  color: profileController.isFocusedTextField3
+                                      ? ColorConfig.textColor
+                                      : ColorConfig.textLightColor,
                                 ),
                               ),
                             ),
@@ -432,7 +467,11 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                             fontFamily: FontFamilyConfig.outfitLight,
                             color: ColorConfig.textLightColor,
                           ),
-                          labelText: profileController.isFocusedTextField4 || profileController.dateOfBirthController.text.isNotEmpty ? StringConfig.dateOfBirth : null,
+                          labelText: profileController.isFocusedTextField4 ||
+                                  profileController
+                                      .dateOfBirthController.text.isNotEmpty
+                              ? StringConfig.dateOfBirth
+                              : null,
                           labelStyle: const TextStyle(
                             fontSize: FontSizeConfig.heading4Text,
                             fontWeight: FontWeight.w300,
@@ -441,24 +480,28 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: ColorConfig.textFieldBorderColor.withOpacity(.3),
+                              color: ColorConfig.textFieldBorderColor
+                                  .withOpacity(.3),
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.textFieldBorderColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: ColorConfig.primaryColor,
                               width: 1,
                             ),
-                            borderRadius: BorderRadius.circular(SizeConfig.borderRadius08),
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.borderRadius08),
                           ),
                           suffixIcon: Padding(
                             padding: const EdgeInsets.all(SizeConfig.padding15),
@@ -469,7 +512,9 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                               child: Image(
                                 image: const AssetImage(ImageConfig.calendar),
                                 width: SizeConfig.width18,
-                                color: profileController.isFocusedTextField4 ? ColorConfig.textColor : ColorConfig.textLightColor,
+                                color: profileController.isFocusedTextField4
+                                    ? ColorConfig.textColor
+                                    : ColorConfig.textLightColor,
                               ),
                             ),
                           ),
@@ -484,7 +529,10 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: SizeConfig.padding20, right: SizeConfig.padding20, bottom: SizeConfig.padding25),
+        padding: const EdgeInsets.only(
+            left: SizeConfig.padding20,
+            right: SizeConfig.padding20,
+            bottom: SizeConfig.padding25),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -499,7 +547,8 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                     elevation: 0,
                     backgroundColor: ColorConfig.backgroundLightColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius52),
                     ),
                   ),
                   child: const Text(
@@ -520,13 +569,14 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
                 height: SizeConfig.height52,
                 child: ElevatedButton(
                   onPressed: () {
-                    Globals.client.sendInfo(Get.parameters["email"]!, profileController.fullNameController.text, code!.dialCode, profileController.phoneNumberController.text, profileController.genderController.text, profileController.selectedDate!, null).then((value) => Get.toNamed(AppRoutes.bottomBarView));
+                    //Globals.client.sendInfo(Get.parameters["email"]!, profileController.fullNameController.text, code!.dialCode, profileController.phoneNumberController.text, profileController.genderController.text, profileController.selectedDate!, null).then((value) => Get.toNamed(AppRoutes.bottomBarView));
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     backgroundColor: ColorConfig.primaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.borderRadius52),
                     ),
                   ),
                   child: const Text(
@@ -565,11 +615,13 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
     ];
 
     return List.generate(dropdownItems.length, (index) {
-      return buildDropdownItem(dropdownItems[index], showIcon: index >= 3, index: index);
+      return buildDropdownItem(dropdownItems[index],
+          showIcon: index >= 3, index: index);
     });
   }
 
-  Widget buildDropdownItem(String option, {bool showIcon = false, required int index}) {
+  Widget buildDropdownItem(String option,
+      {bool showIcon = false, required int index}) {
     final isSelected = index == profileController.selectedOptionIndex;
     return GestureDetector(
       onTap: () {
@@ -583,10 +635,12 @@ class _CompleteYourProfileViewState extends State<CompleteYourProfileView> {
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: SizeConfig.padding10, horizontal: SizeConfig.padding05),
+        padding: const EdgeInsets.symmetric(
+            vertical: SizeConfig.padding10, horizontal: SizeConfig.padding05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(SizeConfig.borderRadius06),
-          border: isSelected ? Border.all(color: ColorConfig.primaryColor) : null,
+          border:
+              isSelected ? Border.all(color: ColorConfig.primaryColor) : null,
           color: isSelected ? ColorConfig.backgroundLightColor : null,
         ),
         child: Text(

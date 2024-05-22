@@ -109,7 +109,8 @@ class OTPView extends StatelessWidget {
                   height: SizeConfig.height60,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: SizeConfig.padding04, right: SizeConfig.padding04),
+                  padding: const EdgeInsets.only(
+                      left: SizeConfig.padding04, right: SizeConfig.padding04),
                   child: Pinput(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     defaultPinTheme: defaultPinTheme,
@@ -121,7 +122,11 @@ class OTPView extends StatelessWidget {
                     focusNode: otpController.pinFocusNode,
                     showCursor: true,
                     errorPinTheme: errorPinTheme,
-                    errorTextStyle: const TextStyle(fontWeight: FontWeight.w400, fontSize: FontSizeConfig.body1Text, fontFamily: FontFamilyConfig.outfitRegular, color: Colors.red),
+                    errorTextStyle: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: FontSizeConfig.body1Text,
+                        fontFamily: FontFamilyConfig.outfitRegular,
+                        color: Colors.red),
                     validator: (pin) {
                       if (pin == null || pin.isEmpty) {
                         otpController.pin = false;
@@ -181,14 +186,15 @@ class OTPView extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (otpController.pin) {
-                        Globals.client.activateAccount(Get.parameters["email"]!).then((value) => Get.toNamed(AppRoutes.completeYourProfileView, parameters: {"email": Get.parameters["email"]!}));
+                        //Globals.client.activateAccount(Get.parameters["email"]!).then((value) => Get.toNamed(AppRoutes.completeYourProfileView, parameters: {"email": Get.parameters["email"]!}));
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: ColorConfig.primaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(SizeConfig.borderRadius52),
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.borderRadius52),
                       ),
                     ),
                     child: const Text(

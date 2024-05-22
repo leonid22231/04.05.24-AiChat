@@ -1,4 +1,4 @@
-package com.example.prime_ai_flutter
+package com.thedeveloper.aichat
 
 import io.flutter.embedding.android.FlutterActivity
 

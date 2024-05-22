@@ -35,6 +35,10 @@ dependencies:
   retrofit: ^4.1.0
   json_annotation: ^4.8.1
   dio: ^5.4.3+1
+  socket_io_client: ^2.0.3+1
+  firebase_auth: ^4.19.6
+  firebase_core: ^2.31.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,6 +46,7 @@ dev_dependencies:
   retrofit_generator: '>=7.0.0 <8.0.0'
   build_runner: '>=2.3.0 <4.0.0'
   json_serializable: ^6.6.2
+  change_app_package_name: ^1.1.0
 
 flutter:
   uses-material-design: true

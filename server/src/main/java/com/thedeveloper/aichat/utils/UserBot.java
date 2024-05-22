@@ -1,8 +1,10 @@
 package com.thedeveloper.aichat.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thedeveloper.aichat.entity.ChatEntity;
 import com.thedeveloper.aichat.entity.MessageEntity;
 import com.thedeveloper.aichat.entity.UserEntity;
+import com.thedeveloper.aichat.entity.enums.ChatModel;
 import com.thedeveloper.aichat.entity.enums.ChatTheme;
 import com.theokanning.openai.client.OpenAiApi;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
@@ -18,6 +20,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.theokanning.openai.service.OpenAiService.*;
@@ -26,7 +29,12 @@ public class UserBot {
     OpenAiService service;
     ChatCompletionRequest completionRequest;
     List<ChatMessage> messages = new ArrayList<>();
-    public UserBot(List<MessageEntity> latest_messages, ChatTheme theme){
+    String model = "gpt-3.5-turbo";
+    public UserBot(ChatEntity chat, ChatTheme theme, String languageCode){
+        switch (chat.getModel()){
+            case gpt_3 -> model = "gpt-3.5-turbo";
+            case gpt_4 -> model = "gpt-4-turbo";
+        }
         Authenticator proxyAuthenticator = new Authenticator() {
             @Override
             public Request authenticate(Route route, Response response) throws IOException {
@@ -38,7 +46,7 @@ public class UserBot {
         };
         ObjectMapper mapper = defaultObjectMapper();
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("45.129.184.209", 8000));
-        OkHttpClient client = defaultClient("sk-proj-jgNdE5l1BXIxVCrzt7zyT3BlbkFJ0XfgwEPFCd9YORIjrBs4", Duration.ofSeconds(60))
+        OkHttpClient client = defaultClient("sk-proj-JDJnCewMSpVnItlU73zJT3BlbkFJHPiE7lMAvYIFdIgmyGwv", Duration.ofSeconds(60))
                 .newBuilder()
                 .proxy(proxy)
                 .proxyAuthenticator(proxyAuthenticator)
@@ -46,9 +54,13 @@ public class UserBot {
         Retrofit retrofit = defaultRetrofit(client, mapper);
         OpenAiApi api  = retrofit.create(OpenAiApi.class);
         service = new OpenAiService(api);
-        messages.add(getLanguage());
+        messages.add(getLanguage(languageCode));
         messages.add(getDescription(theme));
-        for(MessageEntity message: latest_messages){
+        Comparator<MessageEntity> comparator = (c1, c2) -> {
+            return Long.valueOf(c1.getSend_time().getTime()).compareTo(c2.getSend_time().getTime());
+        };
+        chat.getMessages().sort(comparator);
+        for(MessageEntity message: chat.getMessages()){
             ChatMessageRole chatMessageRole;
             switch (message.getMode()){
                 case Ai -> chatMessageRole = ChatMessageRole.ASSISTANT;
@@ -58,30 +70,40 @@ public class UserBot {
         }
     }
     public List<ChatMessage> create(){
-        messages.add(new ChatMessage(ChatMessageRole.USER.value(), "Что ты умеешь ?"));
+        messages.add(new ChatMessage(ChatMessageRole.USER.value(), "Какое твое назначение ?"));
         completionRequest = ChatCompletionRequest.builder()
-                .model("gpt-3.5-turbo")
+                .model(model)
                 .messages(messages)
-                .maxTokens(256)
+                .maxTokens(512)
                 .build();
         return service.createChatCompletion(completionRequest).getChoices().stream().map(ChatCompletionChoice::getMessage).toList();
     }
     public List<ChatMessage> execute(String message){
         messages.add(new ChatMessage(ChatMessageRole.USER.value(), message));
         completionRequest = ChatCompletionRequest.builder()
-                .model("gpt-3.5-turbo")
+                .model(model)
                 .messages(messages)
-                .maxTokens(256)
+                .maxTokens(512)
                 .build();
         return service.createChatCompletion(completionRequest).getChoices().stream().map(ChatCompletionChoice::getMessage).toList();
     }
     private ChatMessage getDescription(ChatTheme theme){
         switch (theme){
-            case more_assistant: return  new ChatMessage(ChatMessageRole.SYSTEM.value(), "Ты самый крутой ассистент для помощи людям, который поможет и проконсультирует в любом вопросе .");
-            default: return  new ChatMessage(ChatMessageRole.SYSTEM.value(), "Ты самый крутой ассистент для помощи людям, который поможет и проконсультирует в любом вопросе .");
+
+            default: return generateDescription("Помогать пользователю","Отвечать на вопросы","Консультировать");
         }
     }
-    private ChatMessage getLanguage(){
-        return new ChatMessage(ChatMessageRole.SYSTEM.value(), "Пиши только по Русски.");
+    private ChatMessage generateDescription(String... function){
+        String functions = "";
+        for(int i = 0; i < function.length; i++){
+            if(i<function.length - 1)
+                functions += function[i] + ",";
+            else
+                functions += function[i] + ".";
+        }
+        return new ChatMessage(ChatMessageRole.SYSTEM.value(),"Твоё назначение: "+functions+" Пиши только с учетом своего назначения.Пиши с использованием эмоджи");
+    }
+    private ChatMessage getLanguage(String lngCode){
+        return new ChatMessage(ChatMessageRole.SYSTEM.value(), "Пиши только на языке с кодом "+lngCode+" .");
     }
 }
